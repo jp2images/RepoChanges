@@ -11,9 +11,9 @@
     The Azure DevOps organization to query. Default is "BeckhoffUS".
 .PARAMETER project
     The Azure DevOps project to query. Default is "TunnelWash".
-.PARAMETER queryDays
-    The number of previous days to query for changes. Default is -1, which 
-    will return all changes since yesterday. Must use a negative number.
+.PARAMETER days
+    The number of previous days to query for changes. Must use a negative number. 
+    Default is 1, which will return all changes since yesterday. 
 .PARAMETER patFilePath
     The path to the file containing the Personal Access Token (PAT) for 
     authentication. Default is "$env:USERPROFILE\.ssh\Beckhoff-AzD-pat.txt".
@@ -23,7 +23,7 @@
     Display verbose output.
 
 .EXAMPLE
-    PS> .\Get-RepoChangesAzD.ps1 -organization "BeckhoffUS" -project "TunnelWash" -queryDays -3
+    PS> .\Get-RepoChangesAzD.ps1 -organization "BeckhoffUS" -project "TunnelWash" -days 3
     This example will query the BeckhoffUS organization and TunnelWash project 
     for changes in the last 3 days.
 
@@ -31,13 +31,13 @@
     File Name      : Get-RepoChangesAzD.ps1
     Author         : Jeff Patterson
     Prerequisite   : PowerShell V7
-    Date           : 2024-11-14
+    Date           : 2024-12-09
 #>
 
 param (
     [string]$organization = "BeckhoffUS", # Default organization
     [string]$project = "TunnelWash",
-    [int]$queryDays = -1,
+    [int]$days = 1,
     [string]$patFilePath = "$env:USERPROFILE\.ssh\Beckhoff-AzD-pat.txt",
     [switch]$help,
     [switch]$h,
@@ -48,6 +48,16 @@ param (
 # Display help if -h or --help is specified
 if ($h -or $help) {
     Get-Help -Full $MyInvocation.MyCommand.Path
+    exit
+}
+
+if($v -or $verbose) {
+    $showall = $true
+    Write-Host "Verbose output is enabled."
+}
+
+if($days -le 0) {
+    Write-Host "The number of days must be a positive number."
     exit
 }
 
@@ -106,17 +116,15 @@ $uriRepos = "https://dev.azure.com/$organization/$project/_apis/git/repositories
 
 $todaysDate = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ")
 # Calculate the date for how far to look back for changes
-$sinceDate = (Get-Date).AddDays($queryDays).ToString("yyyy-MM-ddTHH:mm:ssZ")
+$sinceDate = (Get-Date).AddDays($days * -1).ToString("yyyy-MM-ddTHH:mm:ssZ")
 
 if ($showall) {
     Write-Host ""
     Write-Host "Returning results between the dates: "
     Write-Host "$sinceDate through Today: $todaysDate"
     Write-Host ""
-    Write-Host "      To change the date range, use the -queryDays days parameter from the"
-    Write-Host "      command line, where days is a negative number indicating the number"
-    Write-Host "      of days back to query."
-    Write-Host "      E.g., .\Get-RepoChangesAzD.ps1 -queryDays -3"
+    Write-Host "      To change the date range, use the -days parameter from the comand line."
+    Write-Host "      E.g., .\Get-RepoChangesAzD.ps1 -days 3"
 }
 
 # Make the API request to get repositories

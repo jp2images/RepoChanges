@@ -4,10 +4,18 @@
 .DESCRIPTION
     The script will output the number of repositories in each system and the number
     of changes in each repository along with the SHA, committer, date, and message.
+.PARAMETER days
+    The number of previous days to query for changes. Default is 1, which will return
+    all changes since yesterday. (Note that on the beginning of the week and holidays 
+    this might not return the expected changes.)
 .PARAMETER h -OR help
     Display the help message.
 .PARAMETER verbose -or v
     Display verbose output.
+.EXAMPLE
+    PS> .\Get-RepoStatus.ps1 -days 3
+    This example will check for changes in all repositories from Azure DevOps and GitLab
+    in the previous 3 days
 .EXAMPLE
     PS> .\Get-RepoStatus.ps1 -verbose
 .EXAMPLE
@@ -25,6 +33,7 @@
 #>
 
 param (
+    [int]$days = 1,
     [switch]$help,
     [switch]$h,
     [switch]$verbose,
@@ -42,22 +51,19 @@ if($v -or $verbose) {
 }
 
 Clear-Host
-Write-Host "--------------------------------------------------------------------------------"
-Write-Host "Checking the Azure DevOps Repositories using the Alias 'AzD'"
-Write-Host "--------------------------------------------------------------------------------"
+
+& $env:USERPROFILE\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "AzD" -searchDays $days
 if ($showall) {
-    AzD -verbose
+    AzD -verbose -days $days
 } else {
-    AzD
+    AzD -days $days
 }
 
-Write-Host "--------------------------------------------------------------------------------"
-Write-Host "Checking the GitLab Repositories using the Alias 'gitlab'"
-Write-Host "--------------------------------------------------------------------------------"
+& C:\Users\JPatterson\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "GitLab" -searchDays $days
 if($showall) {
-    gitlab -verbose
+    gitlab -verbose -days $days
 } else {
-    gitlab
+    gitlab -days $days
 }
 
 Write-Host "--------------------------------------------------------------------------------"
