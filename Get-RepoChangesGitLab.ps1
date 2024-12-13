@@ -9,9 +9,9 @@
     branch in each repository. The script will also output the number of
     repositories and branches in the project.
 
-.PARAMETER queryDays
-    The number of previous days to query for changes. Default is -3, which 
-    will return all changes since 3 days ago. Must use a negative number.
+.PARAMETER days
+    The number of previous days to query for changes. Default is 1, which 
+    will return all changes since yesterday.
 
 .PARAMETER atFilePath
     The path to the file containing the Access Token (AT) for authentication. 
@@ -24,18 +24,18 @@
     Display verbose output.
 
 .EXAMPLE
-    PS> .\Get-RepoChangesGitLab.ps1 -queryDays -3
+    PS> .\Get-RepoChangesGitLab.ps1 -days 3
     This example will query the GitLab project for changes in the last 3 days.
 
 .NOTES
     File Name      : Get-RepoChangesGitLab.ps1
     Author         : Jeff Patterson
     Prerequisite   : PowerShell V7
-    Date           : 2024-11-14
+    Date           : 2024-12-09
 #>
 
 param (
-    [int]$queryDays = -3,
+    [int]$days = 3,
     [string]$patFilePath = "$env:USERPROFILE\.ssh\NCS-GitLab-at.txt",
     [switch]$help,
     [switch]$h,
@@ -53,6 +53,11 @@ if($v -or $verbose) {
     $showall = $true
     Write-Host "Verbose output is enabled."
 }
+
+if($days -le 0) {
+    Write-Host "The number of days must be a positive number."
+    exit
+} 
 
 # Function to save the repo count to a file
 function Save-RepoCount {
@@ -102,17 +107,17 @@ $uriProjects = "https://gitlab.com/api/v4/projects?membership=true&private_token
 
 $untilDate = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ")
 # Calculate the date for how far to look back for changes
-$sinceDate = (Get-Date).AddDays($queryDays).ToString("yyyy-MM-ddTHH:mm:ssZ")
+$sinceDate = (Get-Date).AddDays($days * -1).ToString("yyyy-MM-ddTHH:mm:ssZ")
 
 if ($showall) {
     Write-Host ""
     Write-Host "Returning results between the dates: "
     Write-Host "$sinceDate through Today: $untilDate"
     Write-Host ""
-    Write-Host "      To change the date range, use the -queryDays days parameter from the"
+    Write-Host "      To change the date range, use the -days days parameter from the"
     Write-Host "      command line, where days is a negative number indicating the number"
     Write-Host "      of days back to query."
-    Write-Host "      E.g., .\Get-RepoChangesGitLab.ps1 -queryDays -3"
+    Write-Host "      E.g., .\Get-RepoChangesGitLab.ps1 -days -3"
 }
 
 try {

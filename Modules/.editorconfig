@@ -1,0 +1,5 @@
+# All files
+[*.ps1]
+indent_style = space
+guidelines = 80, 120
+guidelines_style = 1.0px dotted 88ff0000

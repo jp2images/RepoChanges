@@ -31,7 +31,7 @@ Set-Alias -Name PSRepo $ScriptLocation\Get-FolderPSRepo.ps1 -Option AllScope
 # Azure DevOps Repo Changes
 Set-Alias -Name Azd $ScriptLocation\Get-RepoChangesAzD.ps1 -Option AllScope
 Set-Alias -Name gitLab $ScriptLocation\Get-RepoChangesGitLab.ps1 -Option AllScope
-Set-Alias -Name repostatus $ScriptLocation\Get-RepoStatus.ps1 -Option AllScope
+Set-Alias -Name changes $ScriptLocation\Get-RepoStatus.ps1 -Option AllScope
 
 # Command Aliases to make it easier to enter CLI commands
 # List all files in the current directory including hidden
