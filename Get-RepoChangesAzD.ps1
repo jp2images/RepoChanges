@@ -188,5 +188,5 @@ foreach ($repo in $responseRepos.value) {
 
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
 
-Write-Host "Azure DevOps check complete."
+Write-Host "Azure DevOps check complete. ✔️"
 Write-Host ""

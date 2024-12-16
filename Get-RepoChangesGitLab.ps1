@@ -133,9 +133,12 @@ catch {
     throw
 }
 
+$projectNum = 0
+
 foreach ($project in $projects) {
     $projectName = $project.name
     $projectId = $project.id
+    $projectNum++
 
     # Set the GitLab API URL for branches
     $branchesApiUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?private_token=$personalAccessToken"
@@ -155,7 +158,7 @@ foreach ($project in $projects) {
 
     $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
 
-    Write-Host "Repository: $($projectName) (ID: $projectId) $($branches.count) $pluralbranch"
+    Write-Host "Project $($projectNum): $($projectName) (ID: $projectId) $($branches.count) $pluralbranch"
 
     if ($showall) {
         Write-Host "================================================================================"
@@ -169,8 +172,11 @@ foreach ($project in $projects) {
         $response = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
     
         $commitCount = $response.count
+        $maxWidth = 70
+
         if ($commitCount -ne 0) {
-            Write-Host "Commits from $branchName"
+            Write-Host ""
+            Write-Host "`e[1mCommits from $projectName.$branchName`e[0m"
             Write-Host "    -----"
                 
             # Display the commits
@@ -178,18 +184,22 @@ foreach ($project in $projects) {
                 $short_id = $_.short_id
                 $author = $_.author_name
                 $created_at = $_.created_at
-                $message = $_.message
+                $wrappedString = $_.message
+                $message = $wrappedString -replace "`n", ""
 
-                Write-Host "Commit ID: $short_id"
-                Write-Host "Author:    $author"
-                Write-Host "Date:      $created_at"
-                Write-Host "Comment:   $message"
+                Write-Host "`tID:        $short_id"
+                Write-Host "`tAuthor:    $author"
+                Write-Host "`tDate:      $created_at"
+                Write-Host "`tComment:   $message"
+                Write-Host ""
             }
         }
     }
 }
 
+Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
 
-Write-Host "GitLab check complete."
+Write-Host ""
+Write-Host "GitLab check complete. ✔️"
 Write-Host ""
