@@ -1,0 +1,233 @@
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04">
+  <Obj RefId="0">
+    <TN RefId="0">
+      <T>Microsoft.PowerShell.Commands.PSRepositoryItemInfo</T>
+      <T>System.Management.Automation.PSCustomObject</T>
+      <T>System.Object</T>
+    </TN>
+    <MS>
+      <S N="Name">TcXaeMgmt</S>
+      <Version N="Version">6.0.188</Version>
+      <S N="Type">Module</S>
+      <S N="Description">Cmdlets for Twincat ADS and device management for Powershell Core and Windows Powershell</S>
+      <S N="Author">Beckhoff</S>
+      <S N="CompanyName">RaHe</S>
+      <S N="Copyright">Beckhoff Automation GmbH 2024</S>
+      <DT N="PublishedDate">2024-12-18T12:03:18-06:00</DT>
+      <Obj N="InstalledDate" RefId="1">
+        <DT>2024-12-18T13:52:16.3907722-06:00</DT>
+        <MS>
+          <Obj N="DisplayHint" RefId="2">
+            <TN RefId="1">
+              <T>Microsoft.PowerShell.Commands.DisplayHintType</T>
+              <T>System.Enum</T>
+              <T>System.ValueType</T>
+              <T>System.Object</T>
+            </TN>
+            <ToString>DateTime</ToString>
+            <I32>2</I32>
+          </Obj>
+        </MS>
+      </Obj>
+      <Nil N="UpdatedDate" />
+      <URI N="LicenseUri">https://github.com/Beckhoff/ADS/blob/master/LICENSE</URI>
+      <URI N="ProjectUri">https://infosys.beckhoff.com/content/1033/tc3_ads_ps_tcxaemgmt/3972231819.html?id=8731138690123386389</URI>
+      <URI N="IconUri">http://nuget.beckhoff.com/image/PSTwinCATInternal.png</URI>
+      <Obj N="Tags" RefId="3">
+        <TN RefId="2">
+          <T>System.Object[]</T>
+          <T>System.Array</T>
+          <T>System.Object</T>
+        </TN>
+        <LST>
+          <S>Powershell</S>
+          <S>Management</S>
+          <S>TcXaeMgmt</S>
+          <S>ADS</S>
+          <S>Route</S>
+          <S>Beckhoff</S>
+          <S>TwinCAT</S>
+          <S>PSModule</S>
+          <S>PSEdition_Core</S>
+          <S>PSEdition_Desktop</S>
+        </LST>
+      </Obj>
+      <Obj N="Includes" RefId="4">
+        <TN RefId="3">
+          <T>System.Collections.Hashtable</T>
+          <T>System.Object</T>
+        </TN>
+        <DCT>
+          <En>
+            <S N="Key">Function</S>
+            <Obj N="Value" RefId="5">
+              <TNRef RefId="2" />
+              <LST />
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Command</S>
+            <Obj N="Value" RefId="6">
+              <TNRef RefId="2" />
+              <LST>
+                <S>Add-AdsRoute</S>
+                <S>Close-TcSession</S>
+                <S>Copy-AdsFile</S>
+                <S>Get-AdsRoute</S>
+                <S>Get-AdsState</S>
+                <S>Get-TcDataType</S>
+                <S>Get-TcSession</S>
+                <S>Get-TcSymbol</S>
+                <S>Get-TcTargetInfo</S>
+                <S>Get-TcVersion</S>
+                <S>New-TcSession</S>
+                <S>Read-TcValue</S>
+                <S>Remove-AdsRoute</S>
+                <S>Set-AdsState</S>
+                <S>Test-AdsRoute</S>
+                <S>Write-TcValue</S>
+                <S>Get-TcLicense</S>
+                <S>Send-TcReadWrite</S>
+                <S>Register-AdsHandle</S>
+                <S>Unregister-AdsHandle</S>
+                <S>Add-MqttRoute</S>
+                <S>Remove-MqttRoute</S>
+                <S>Get-MqttRoute</S>
+                <S>Register-AdsNatRoute</S>
+                <S>Restart-AdsComputer</S>
+                <S>Stop-AdsComputer</S>
+                <S>Get-TcRouterInfo</S>
+                <S>Get-AmsRouterEndpoint</S>
+                <S>Set-AmsRouterEndpoint</S>
+                <S>Get-TcEvent</S>
+                <S>Get-IODevice</S>
+                <S>Get-EcMaster</S>
+                <S>Get-EcBoxes</S>
+                <S>Get-EcFrameStatistics</S>
+                <S>Get-IoFreeRun</S>
+                <S>Set-IoFreeRun</S>
+                <S>Reset-IoFreeRun</S>
+                <S>Get-RTimeLatency</S>
+                <S>Get-RTimePerformance</S>
+                <S>Get-RTimeCpuSettings</S>
+                <S>Set-RTimeCpuSettings</S>
+                <S>Start-AdsProcess</S>
+                <S>Set-AmsNetId</S>
+                <S>Restart-TwinCAT</S>
+                <S>Get-AmsNetId</S>
+                <S>Get-TcSymbolStatistics</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Cmdlet</S>
+            <Obj N="Value" RefId="7">
+              <TNRef RefId="2" />
+              <LST>
+                <S>Add-AdsRoute</S>
+                <S>Close-TcSession</S>
+                <S>Copy-AdsFile</S>
+                <S>Get-AdsRoute</S>
+                <S>Get-AdsState</S>
+                <S>Get-TcDataType</S>
+                <S>Get-TcSession</S>
+                <S>Get-TcSymbol</S>
+                <S>Get-TcTargetInfo</S>
+                <S>Get-TcVersion</S>
+                <S>New-TcSession</S>
+                <S>Read-TcValue</S>
+                <S>Remove-AdsRoute</S>
+                <S>Set-AdsState</S>
+                <S>Test-AdsRoute</S>
+                <S>Write-TcValue</S>
+                <S>Get-TcLicense</S>
+                <S>Send-TcReadWrite</S>
+                <S>Register-AdsHandle</S>
+                <S>Unregister-AdsHandle</S>
+                <S>Add-MqttRoute</S>
+                <S>Remove-MqttRoute</S>
+                <S>Get-MqttRoute</S>
+                <S>Register-AdsNatRoute</S>
+                <S>Restart-AdsComputer</S>
+                <S>Stop-AdsComputer</S>
+                <S>Get-TcRouterInfo</S>
+                <S>Get-AmsRouterEndpoint</S>
+                <S>Set-AmsRouterEndpoint</S>
+                <S>Get-TcEvent</S>
+                <S>Get-IODevice</S>
+                <S>Get-EcMaster</S>
+                <S>Get-EcBoxes</S>
+                <S>Get-EcFrameStatistics</S>
+                <S>Get-IoFreeRun</S>
+                <S>Set-IoFreeRun</S>
+                <S>Reset-IoFreeRun</S>
+                <S>Get-RTimeLatency</S>
+                <S>Get-RTimePerformance</S>
+                <S>Get-RTimeCpuSettings</S>
+                <S>Set-RTimeCpuSettings</S>
+                <S>Start-AdsProcess</S>
+                <S>Set-AmsNetId</S>
+                <S>Restart-TwinCAT</S>
+                <S>Get-AmsNetId</S>
+                <S>Get-TcSymbolStatistics</S>
+              </LST>
+            </Obj>
+          </En>
+          <En>
+            <S N="Key">Workflow</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+          <En>
+            <S N="Key">RoleCapability</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+          <En>
+            <S N="Key">DscResource</S>
+            <Ref N="Value" RefId="5" />
+          </En>
+        </DCT>
+      </Obj>
+      <Version N="PowerShellGetFormatVersion">2.0</Version>
+      <S N="ReleaseNotes">Powershell Commandlets for TwinCAT ADS Communication and TwinCAT Ads Management tasks._x000D__x000A__x000D__x000A_Prerequisites:_x000D__x000A_&gt;= TwinCAT 3.1.4024.10 (XAR Runtime or Full) (local installation)_x000D__x000A_&gt;= .NET Framework 4.6.1_x000D__x000A_&gt;= Windows Powershell 5.1_x000D__x000A_&gt;= Powershell (Core) 6.0_x000D__x000A__x000D__x000A_Note:_x000D__x000A_This version of the TcXaeMgmt Module only works with TwinCAT Versions &gt;= 4024.10_x000D__x000A_locally installed. If an older TwinCAT Version is used on the system, please install_x000D__x000A_the 3.X Series of the TcXaeModule for Windows Powershell._x000D__x000A__x000D__x000A_Features:_x000D__x000A_- Read/Write Values to Local or Remote Systems via ADS (Symbolic, Raw ProcessImage Data)_x000D__x000A_- Start-Stop logical ADS Devices (PLC, SystemService) and setting Config Mode locally and remote_x000D__x000A_- Collection Remote Target System Information (TwinCAT Version)_x000D__x000A_- Broadcast Search (Browsing ADS Network infrastucture)_x000D__x000A_- Adding / Removing ADS Routes_x000D__x000A_- Session Management (ADS Sessions and connections)_x000D__x000A_- Browsing symbolic information from TwinCAT Targets_x000D__x000A__x000D__x000A_First Steps:_x000D__x000A__x000D__x000A_Getting global information_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-help about_TcXaeMgmt_x000D__x000A_```_x000D__x000A__x000D__x000A_Getting List of commands_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-command -module TcXaeMgmt_x000D__x000A_```_x000D__x000A__x000D__x000A_Getting Command Help:_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-help Read-TcValue -full_x000D__x000A_```_x000D__x000A_Documentation and further learning_x000D__x000A__x000D__x000A_[Documentation TcXaeMgmt Module]_x000D__x000A_https://infosys.beckhoff.com/content/1033/tc3_ads_ps_tcxaemgmt/3972231819.html?id=8731138690123386389_x000D__x000A_[About the TcXaeMgmt Module]_x000D__x000A_https://infosys.beckhoff.com/content/1033/tc3_ads_ps_tcxaemgmt/4130762891.html?id=4912948515382920501_x000D__x000A__x000D__x000A_ReleaseNotes:_x000D__x000A__x000D__x000A_Links_x000D__x000A_[Beckhoff Homepage]_x000D__x000A_https://www.beckhoff.com/</S>
+      <Obj N="Dependencies" RefId="8">
+        <TNRef RefId="2" />
+        <LST />
+      </Obj>
+      <S N="RepositorySourceLocation">https://www.powershellgallery.com/api/v2</S>
+      <S N="Repository">PSGallery</S>
+      <S N="PackageManagementProvider">NuGet</S>
+      <Obj N="AdditionalMetadata" RefId="9">
+        <TN RefId="4">
+          <T>System.Management.Automation.PSCustomObject</T>
+          <T>System.Object</T>
+        </TN>
+        <MS>
+          <S N="copyright">Beckhoff Automation GmbH 2024</S>
+          <S N="description">Cmdlets for Twincat ADS and device management for Powershell Core and Windows Powershell</S>
+          <S N="requireLicenseAcceptance">True</S>
+          <S N="releaseNotes">Powershell Commandlets for TwinCAT ADS Communication and TwinCAT Ads Management tasks._x000D__x000A__x000D__x000A_Prerequisites:_x000D__x000A_&gt;= TwinCAT 3.1.4024.10 (XAR Runtime or Full) (local installation)_x000D__x000A_&gt;= .NET Framework 4.6.1_x000D__x000A_&gt;= Windows Powershell 5.1_x000D__x000A_&gt;= Powershell (Core) 6.0_x000D__x000A__x000D__x000A_Note:_x000D__x000A_This version of the TcXaeMgmt Module only works with TwinCAT Versions &gt;= 4024.10_x000D__x000A_locally installed. If an older TwinCAT Version is used on the system, please install_x000D__x000A_the 3.X Series of the TcXaeModule for Windows Powershell._x000D__x000A__x000D__x000A_Features:_x000D__x000A_- Read/Write Values to Local or Remote Systems via ADS (Symbolic, Raw ProcessImage Data)_x000D__x000A_- Start-Stop logical ADS Devices (PLC, SystemService) and setting Config Mode locally and remote_x000D__x000A_- Collection Remote Target System Information (TwinCAT Version)_x000D__x000A_- Broadcast Search (Browsing ADS Network infrastucture)_x000D__x000A_- Adding / Removing ADS Routes_x000D__x000A_- Session Management (ADS Sessions and connections)_x000D__x000A_- Browsing symbolic information from TwinCAT Targets_x000D__x000A__x000D__x000A_First Steps:_x000D__x000A__x000D__x000A_Getting global information_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-help about_TcXaeMgmt_x000D__x000A_```_x000D__x000A__x000D__x000A_Getting List of commands_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-command -module TcXaeMgmt_x000D__x000A_```_x000D__x000A__x000D__x000A_Getting Command Help:_x000D__x000A_```powershell_x000D__x000A_PS&gt; get-help Read-TcValue -full_x000D__x000A_```_x000D__x000A_Documentation and further learning_x000D__x000A__x000D__x000A_[Documentation TcXaeMgmt Module]_x000D__x000A_https://infosys.beckhoff.com/content/1033/tc3_ads_ps_tcxaemgmt/3972231819.html?id=8731138690123386389_x000D__x000A_[About the TcXaeMgmt Module]_x000D__x000A_https://infosys.beckhoff.com/content/1033/tc3_ads_ps_tcxaemgmt/4130762891.html?id=4912948515382920501_x000D__x000A__x000D__x000A_ReleaseNotes:_x000D__x000A__x000D__x000A_Links_x000D__x000A_[Beckhoff Homepage]_x000D__x000A_https://www.beckhoff.com/</S>
+          <S N="isLatestVersion">True</S>
+          <S N="isAbsoluteLatestVersion">True</S>
+          <S N="versionDownloadCount">82</S>
+          <S N="downloadCount">35837</S>
+          <S N="packageSize">2840665</S>
+          <S N="published">12/18/2024 12:03:18 PM -06:00</S>
+          <S N="created">12/18/2024 12:03:18 PM -06:00</S>
+          <S N="lastUpdated">12/18/2024 7:40:00 PM -06:00</S>
+          <S N="tags">Powershell Management TcXaeMgmt ADS Route Beckhoff TwinCAT PowerShellGetFormatVersion_2.0 PSModule PSEdition_Core PSEdition_Desktop PSCmdlet_Add-AdsRoute PSCommand_Add-AdsRoute PSCmdlet_Close-TcSession PSCommand_Close-TcSession PSCmdlet_Copy-AdsFile PSCommand_Copy-AdsFile PSCmdlet_Get-AdsRoute PSCommand_Get-AdsRoute PSCmdlet_Get-AdsState PSCommand_Get-AdsState PSCmdlet_Get-TcDataType PSCommand_Get-TcDataType PSCmdlet_Get-TcSession PSCommand_Get-TcSession PSCmdlet_Get-TcSymbol PSCommand_Get-TcSymbol PSCmdlet_Get-TcTargetInfo PSCommand_Get-TcTargetInfo PSCmdlet_Get-TcVersion PSCommand_Get-TcVersion PSCmdlet_New-TcSession PSCommand_New-TcSession PSCmdlet_Read-TcValue PSCommand_Read-TcValue PSCmdlet_Remove-AdsRoute PSCommand_Remove-AdsRoute PSCmdlet_Set-AdsState PSCommand_Set-AdsState PSCmdlet_Test-AdsRoute PSCommand_Test-AdsRoute PSCmdlet_Write-TcValue PSCommand_Write-TcValue PSCmdlet_Get-TcLicense PSCommand_Get-TcLicense PSCmdlet_Send-TcReadWrite PSCommand_Send-TcReadWrite PSCmdlet_Register-AdsHandle PSCommand_Register-AdsHandle PSCmdlet_Unregister-AdsHandle PSCommand_Unregister-AdsHandle PSCmdlet_Add-MqttRoute PSCommand_Add-MqttRoute PSCmdlet_Remove-MqttRoute PSCommand_Remove-MqttRoute PSCmdlet_Get-MqttRoute PSCommand_Get-MqttRoute PSCmdlet_Register-AdsNatRoute PSCommand_Register-AdsNatRoute PSCmdlet_Restart-AdsComputer PSCommand_Restart-AdsComputer PSCmdlet_Stop-AdsComputer PSCommand_Stop-AdsComputer PSCmdlet_Get-TcRouterInfo PSCommand_Get-TcRouterInfo PSCmdlet_Get-AmsRouterEndpoint PSCommand_Get-AmsRouterEndpoint PSCmdlet_Set-AmsRouterEndpoint PSCommand_Set-AmsRouterEndpoint PSCmdlet_Get-TcEvent PSCommand_Get-TcEvent PSCmdlet_Get-IODevice PSCommand_Get-IODevice PSCmdlet_Get-EcMaster PSCommand_Get-EcMaster PSCmdlet_Get-EcBoxes PSCommand_Get-EcBoxes PSCmdlet_Get-EcFrameStatistics PSCommand_Get-EcFrameStatistics PSCmdlet_Get-IoFreeRun PSCommand_Get-IoFreeRun PSCmdlet_Set-IoFreeRun PSCommand_Set-IoFreeRun PSCmdlet_Reset-IoFreeRun PSCommand_Reset-IoFreeRun PSCmdlet_Get-RTimeLatency PSCommand_Get-RTimeLatency PSCmdlet_Get-RTimePerformance PSCommand_Get-RTimePerformance PSCmdlet_Get-RTimeCpuSettings PSCommand_Get-RTimeCpuSettings PSCmdlet_Set-RTimeCpuSettings PSCommand_Set-RTimeCpuSettings PSCmdlet_Start-AdsProcess PSCommand_Start-AdsProcess PSCmdlet_Set-AmsNetId PSCommand_Set-AmsNetId PSCmdlet_Restart-TwinCAT PSCommand_Restart-TwinCAT PSCmdlet_Get-AmsNetId PSCommand_Get-AmsNetId PSCmdlet_Get-TcSymbolStatistics PSCommand_Get-TcSymbolStatistics PSIncludes_Cmdlet</S>
+          <S N="developmentDependency">False</S>
+          <S N="updated">2024-12-18T19:40:00Z</S>
+          <S N="NormalizedVersion">6.0.188</S>
+          <S N="Authors">Beckhoff</S>
+          <S N="IsPrerelease">false</S>
+          <S N="ItemType">Module</S>
+          <S N="FileList">TcXaeMgmt.nuspec|netstandard2.0\TwinCAT.Ads.Reactive.dll|about_TcXaeMgmt.help.txt|netstandard2.0\Microsoft.CSharp.dll|netstandard2.0\System.Resources.Extensions.dll|netstandard2.0\TwinCAT.Ads.Server.dll|License.txt|netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll|netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll|netstandard2.0\TwinCAT.Core.dll|TcXaeMgmt-Help.xml|netstandard2.0\System.Buffers.dll|netstandard2.0\System.Security.AccessControl.dll|netstandard2.0\TwinCAT.Management.dll|TcXaeMgmt.cat|netstandard2.0\System.CodeDom.dll|netstandard2.0\System.Security.Cryptography.ProtectedData.dll|netstandard2.0\TwinCAT.SystemService.dll|TcXaeMgmt.format.ps1xml|netstandard2.0\System.ComponentModel.Composition.dll|netstandard2.0\System.Security.Permissions.dll|netstandard2.0\TwinCAT.Utilities.dll|netstandard2.0\System.Configuration.ConfigurationManager.dll|netstandard2.0\System.Security.Principal.Windows.dll|netstandard2.0\de\TwinCAT.Core.resources.dll|TcXaeMgmt.psd1|netstandard2.0\System.Management.dll|netstandard2.0\System.Text.Encoding.CodePages.dll|netstandard2.0\de\TwinCAT.Utilities.resources.dll|TcXaeMgmt.psm1|netstandard2.0\System.Memory.dll|netstandard2.0\System.Threading.Tasks.Extensions.dll|TcXaeMgmt.types.ps1xml|netstandard2.0\System.Numerics.Vectors.dll|netstandard2.0\TwinCAT.Ads.Abstractions.dll|netstandard2.0\EtherCAT.Description.dll|netstandard2.0\System.Reactive.dll|netstandard2.0\TwinCAT.Ads.dll</S>
+          <S N="GUID">2ff0b895-60af-486d-ab1c-781ab019ea47</S>
+          <S N="PowerShellVersion">5.1</S>
+          <S N="CompanyName">Beckhoff Automation GmbH &amp; Co. KG</S>
+        </MS>
+      </Obj>
+      <S N="InstalledLocation">C:\Users\JPatterson\Documents\PowerShell\Modules\TcXaeMgmt\6.0.188</S>
+    </MS>
+  </Obj>
+</Objs>

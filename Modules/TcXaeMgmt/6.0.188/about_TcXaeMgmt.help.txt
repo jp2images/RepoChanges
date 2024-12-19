@@ -1,0 +1,513 @@
+﻿TOPIC
+    about_tcxaemgmt
+
+    PowerShell TwinCAT XAE Management Console (
+    TcXaeMgmt
+    )
+
+SHORT DESCRIPTION
+    Cmdlets for managing and accessing ADS Routes, Reading/Writing Values and
+    managing Remote targets.
+
+LONG DESCRIPTION
+    The Powershell TwinCAT Management Console is a PowerShell module that
+    provides a number of useful cmdlets for TwinCAT System Management and for
+    communicating with ADS devices over the ADS protocol.
+    This includes the following tasks/features: - Establishing/Removing Route
+    Connections (
+    Add-AdsRoute
+    ,
+    Remove-AdsRoute
+    ) - Browsing Routes locally and within the network (
+    Broadcast Search
+    ,
+    Get-AdsRoute
+    ) - Getting remote device states and information (
+    Get-AdsState
+    ,
+    Get-TcTargetInfo
+    ,
+    Get-TcVersionInfo
+    ) - Establishing and Closing Remote communication sessions (
+    New-TcSession
+    ,
+    Get-TcSession
+    ,
+    Close-TcSession
+    ) - Browsing Symbol Information (
+    Get-TcSymbol
+    ,
+    Get-TcDataType
+    ) - Reading/Writing raw and symbolic values (
+    Read-TcValue
+    ,
+    Write-TcValue
+    ,
+    Send-TcReadWrite
+    )  - Uploading/Downloading files to/from remote devices (
+    Copy-AdsFile
+    ) - Browsing License information (
+    Get-TcLicense
+    )
+    This Module is usable under all Powershell Version >= 5.1 including 'Windows
+    Powershell' and 'Powershell Core' Versions.
+    As Prerequisite the
+    TcXaeMgmt
+    Module needs a local TwinCAT installation larger equals than TwinCAT
+    4024.10. There are no limitations to access  other/older TwinCAT Versions
+    remotely.
+
+PREREQUISITES
+    >= TwinCAT 3.1.4024.10 (XAR Runtime or Full) (local installation)
+
+POWERSHELL COMPATIBILITY
+    >= Windows Powershell 5.1
+>= Powershell (Core) 6.0
+
+CMDLETS
+    To see what cmdlets are provided by the TcXaeMgmt Module, execute the
+    command:
+
+    PS> Get-Command -Module TcXaeMgmt -CommandType Cmdlet
+
+    The actual TcXaeMgmt cmdlets are listed below:
+
+    [ADD-ADSROUTE](ADD-ADSROUTE.MD)
+    Cmdlet for adding TwinCAT Routes.
+
+    [ADD-MQTTROUTE](ADD-MQTTROUTE.MD)
+    Adds an MQTT route to the destination system.
+
+    [CLOSE-TCSESSION](CLOSE-TCSESSION.MD)
+    Closes the specified session object.
+
+    [COPY-ADSFILE](COPY-ADSFILE.MD)
+    Uploads / Downloads files from/to TwinCAT target.
+
+    [GET-ADSROUTE](GET-ADSROUTE.MD)
+    List routes on a TwinCAT System / Broadcast search.
+
+    [GET-ADSSTATE](GET-ADSSTATE.MD)
+    Gets the Ads State of a TwinCAT Target.
+
+    [GET-AMSROUTERENDPOINT](GET-AMSROUTERENDPOINT.MD)
+    Get the actual AmsConfiguration / RouterEndpoint of the process.
+
+    [GET-ECBOXES](GET-ECBOXES.MD)
+    Gets the EtherCAT Boxes actually loaded ton the target system.
+
+    [GET-ECFRAMESTATISTICS](GET-ECFRAMESTATISTICS.MD)
+    Gets the EtherCAT Frame statistics from an ETherCAT master.
+
+    [GET-ECMASTER](GET-ECMASTER.MD)
+    Gets the Ads State of a TwinCAT Target.
+
+    [GET-IODEVICE](GET-IODEVICE.MD)
+    Gets actually loaded IO Devices of the target system.
+
+    [GET-IOFREERUN](GET-IOFREERUN.MD)
+    Gets the IO FreeRun State of the specified target.
+
+    [GET-MQTTROUTE](GET-MQTTROUTE.MD)
+    Remove a MQTT Route.
+
+    [GET-RTIMECPUSETTINGS](GET-RTIMECPUSETTINGS.MD)
+    Getting the Cpu Settings of the TwinCAT System
+
+    [GET-RTIMELATENCY](GET-RTIMELATENCY.MD)
+    Get the latency of TwinCAT Realtime Cores of the specified TwinCAT target
+    system.
+
+    [GET-RTIMEPERFORMANCE](GET-RTIMEPERFORMANCE.MD)
+    Gets the Realtime Performance of the specified system.
+
+    [GET-TCDATATYPE](GET-TCDATATYPE.MD)
+    Get the DataTypes from a TwinCAT target system / Device.
+
+    [GET-TCEVENT](GET-TCEVENT.MD)
+    Gets TwinCAT events from event logs on local and remote computers.
+
+    [GET-TCLICENSE](GET-TCLICENSE.MD)
+    Get TwinCAT License information.
+
+    [GET-TCROUTERINFO](GET-TCROUTERINFO.MD)
+    Gets the router status information of the specified target system.
+
+    [GET-TCSESSION](GET-TCSESSION.MD)
+    List the currently established Sessions.
+
+    [GET-TCSYMBOL](GET-TCSYMBOL.MD)
+    Get the symbols from a TwinCAT target system / Device.
+
+    [GET-TCTARGETINFO](GET-TCTARGETINFO.MD)
+    Get TwinCAT Device Target information.
+
+    [GET-TCVERSION](GET-TCVERSION.MD)
+    Get the TwinCAT Version of a target system.
+
+    [NEW-TCSESSION](NEW-TCSESSION.MD)
+    Create a new session to a TwinCAT Target.
+
+    [READ-TCVALUE](READ-TCVALUE.MD)
+    Reads values from TwinCAT devices.
+
+    [REGISTER-ADSHANDLE](REGISTER-ADSHANDLE.MD)
+    Registers and returns a symbol handle.
+
+    [REGISTER-ADSNATROUTE](REGISTER-ADSNATROUTE.MD)
+    Changes an standard Route to an AmsNAT route on the target system
+    (obsolete).
+
+    [REMOVE-ADSROUTE](REMOVE-ADSROUTE.MD)
+    Remove an ADS Route.
+
+    [REMOVE-MQTTROUTE](REMOVE-MQTTROUTE.MD)
+    Remove a MQQT Route.
+
+    [RESET-IOFREERUN](RESET-IOFREERUN.MD)
+    Resets the IO FreeRun state on the specified target.
+
+    [RESTART-ADSCOMPUTER](RESTART-ADSCOMPUTER.MD)
+    Restarts ("reboots") the operating system on local and remote TwinCAT
+    computers.
+
+    [SEND-TCREADWRITE](SEND-TCREADWRITE.MD)
+    Sends a Read/Write access to ADS Server / TwinCAT Devices.
+
+    [SET-ADSSTATE](SET-ADSSTATE.MD)
+    Set the ADS State of a TwinCAT Target.
+
+    [SET-AMSROUTERENDPOINT](SET-AMSROUTERENDPOINT.MD)
+    Sets the AmsConfiguration (Loopback address and port, RouterEndpoint).
+
+    [SET-IOFREERUN](SET-IOFREERUN.MD)
+    Sets the IO FreeRun state of the target.
+
+    [STOP-ADSCOMPUTER](STOP-ADSCOMPUTER.MD)
+    Stops (shuts down) local and remote TwinCAT computers.
+
+    [TEST-ADSROUTE](TEST-ADSROUTE.MD)
+    Test the specified route connection.
+
+    [UNREGISTER-ADSHANDLE](UNREGISTER-ADSHANDLE.MD)
+    Unregisters a symbol handle.
+
+    [WRITE-TCVALUE](WRITE-TCVALUE.MD)
+    Write values to TwinCAT devices.
+
+EXAMPLES
+Getting Route
+    PS> $route = get-adsroute TC3TEST*
+    PS> $route
+    
+    Name            NetId             Address       Sub Version RTSystem
+    ----            -----             -------       --- ------- --------
+    TC3TESTA1-CP67X 172.17.62.105.1.1 172.17.62.105     0.0     Unknown
+
+Create Session
+    PS> $session = New-TcSession -Route $route -Port 851
+    PS> $session
+    
+    ID Address               IsConnected EstablishedAt
+    -- -------               ----------- -------------
+    1  172.17.62.105.1.1:851 True        12/12/2016 12:22:02 PM
+
+Read Ads Value (Struct)
+    PS> $v1 = Read-TcValue -SessionId 1 -Path "GVL.vgStruct"
+    PS> $v1
+    
+    vBool   : True
+    vByte   : 123
+    vWord   : 12345
+    vDWord  : 12345678
+    vSInt   : -121
+    vUSInt  : 212
+    vInt    : -12121
+    vUInt   : 21212
+    vDInt   : -1212121
+    vUDInt  : 2121212
+    vReal   : 123,456
+    vLReal  : 1234567890,12346
+    vString : QWERTZUIOPÜASDFGHJKLÖÄYXCVBNM;:_
+    vTime   : 01:02:03.0040000
+    vTod    : 23:45:06.7890000
+    vDate   : 17.11.2005 00:00:00
+    vDT     : 17.11.2005 12:34:56
+    vAlias  : 8
+    vEnum   : 8
+    vRange  : 7
+    PSValue : ...
+
+Read Ads Value (Boolean)
+    PS> $v2 = Read-TcValue -SessionId 1 -Path "Main.bChange"
+    PS> $v2
+    False
+
+Read Ads Value (Array of Strings)
+    PS> $v3 = Read-TcValue -SessionId 1 -path "GVL.vgaString"
+    
+    Dimensions                     Elements                                                             PSValue
+    ----------                     --------                                                             -------
+    {TwinCAT.TypeSystem.Dimension} {QWERTZUIOPÜASDFGHJKLÖÄYXCVBNM;:_, _:;MNBVCXYÄÖLKJHGFDSAÜPOIUZTREWQ} ...
+
+READ ARRAY OF STRUCTS
+    PS> $v4 = Read-TcValue -SessionId 1 -path "GVL.vgastruct"
+    
+    
+    Dimensions                     Elements
+    ----------                     --------
+    {TwinCAT.TypeSystem.Dimension} {@{vBool=True; vByte=123; vWord=12345; vDWord=12345678; vSInt=-121; vUSInt=212; vInt=-12121; vUInt=21212; vDInt=-1212121; vUD...
+
+Dump Array Elements
+    PS> $v4.Dimensions.ElementCount
+    2
+    
+    PS> $v4.Elements
+    
+    vBool   : True
+    vByte   : 123
+    vWord   : 12345
+    vDWord  : 12345678
+    vSInt   : -121
+    vUSInt  : 212
+    vInt    : -12121
+    vUInt   : 21212
+    vDInt   : -1212121
+    vUDInt  : 2121212
+    vReal   : 123,456
+    vLReal  : 1234567890,12346
+    vString : QWERTZUIOPÜASDFGHJKLÖÄYXCVBNM;:_
+    vTime   : 01:02:03.0040000
+    vTod    : 23:45:06.7890000
+    vDate   : 17.11.2005 00:00:00
+    vDT     : 17.11.2005 12:34:56
+    vAlias  : 8
+    vEnum   : 8
+    vRange  : 7
+    PSValue : ...
+    
+    vBool   : False
+    vByte   : 234
+    vWord   : 23456
+    vDWord  : 23456789
+    vSInt   : 121
+    vUSInt  : 131
+    vInt    : 12121
+    vUInt   : 13131
+    vDInt   : 1212121
+    vUDInt  : 1313131
+    vReal   : 456,321
+    vLReal  : 987654321,123457
+    vString : _:;MNBVCXYÄÖLKJHGFDSAÜPOIUZTREWQ
+    vTime   : 11:22:33.0440000
+    vTod    : 11:22:33.4440000
+    vDate   : 22.01.1999 00:00:00
+    vDT     : 22.01.1999 11:22:33
+    vAlias  : 9
+    vEnum   : 9
+    vRange  : -5
+    PSValue : ...
+    
+    ## Browse Data Types (Query by Category)
+    PS> $session | Get-TcDataType | where Category -eq "Array" }
+    
+    Name                      Size     Category   Comment          ElementType      Dimensions       Members
+    ----                      ----     --------   -------          -----------      ----------       -------
+    ARRAY [-1..1] OF INT      6        Array                       INT              {TwinCAT.Type...
+    ARRAY [-10..-8] OF BOOL   3        Array                       BOOL             {TwinCAT.Type...
+    ARRAY [0..1] OF A_Alias   4        Array                       A_Alias          {TwinCAT.Type...
+
+Browse DataTypes by name
+    PS> $session | Get-TcDataType -name "Array*"
+
+Browse all Symbols recursively
+    PS> $session | Get-TcSymbol -recurse
+    ... returns all symbols
+
+Browse Symbols recursivly by Symbol Path (Here specific array index 'TaskInfo[1]'(
+    PS> $session | Get-TcSymbol -recurse -path "*TaskInfo``[1``]*","*.ProjectName"
+    
+    InstanceName            DataType              Size InstancePath                                                   Comment
+    ------------            --------              ---- ------------                                                   -------
+    ProjectName             STRING(63)            64   TwinCAT_SystemInfoVarList._AppInfo.ProjectName
+    _TaskInfo[1]            PLC.PlcTaskSystemInfo 128  TwinCAT_SystemInfoVarList._TaskInfo[1]
+    ObjId                   OTCID                 4    TwinCAT_SystemInfoVarList._TaskInfo[1].ObjId
+    CycleTime               UDINT                 4    TwinCAT_SystemInfoVarList._TaskInfo[1].CycleTime
+    Priority                UINT                  2    TwinCAT_SystemInfoVarList._TaskInfo[1].Priority
+    AdsPort                 UINT                  2    TwinCAT_SystemInfoVarList._TaskInfo[1].AdsPort
+    CycleCount              UDINT                 4    TwinCAT_SystemInfoVarList._TaskInfo[1].CycleCount
+    DcTaskTime              LINT                  8    TwinCAT_SystemInfoVarList._TaskInfo[1].DcTaskTime
+    LastExecTime            UDINT                 4    TwinCAT_SystemInfoVarList._TaskInfo[1].LastExecTime
+    FirstCycle              BOOL                  1    TwinCAT_SystemInfoVarList._TaskInfo[1].FirstCycle
+    CycleTimeExceeded       BOOL                  1    TwinCAT_SystemInfoVarList._TaskInfo[1].CycleTimeExceeded
+    InCallAfterOutputUpdate BOOL                  1    TwinCAT_SystemInfoVarList._TaskInfo[1].InCallAfterOutputUpdate
+    RTViolation             BOOL                  1    TwinCAT_SystemInfoVarList._TaskInfo[1].RTViolation
+    TaskName                STRING(63)            64   TwinCAT_SystemInfoVarList._TaskInfo[1].TaskName
+
+Browse only Symbols ending with path *.ProjectName
+    PS>$project = Get-TcSymbol -Session $session -recurse -path "*.ProjectName"
+    
+    InstanceName DataType   Size InstancePath                                   Comment
+    ------------ --------   ---- ------------                                   -------
+    ProjectName  STRING(63) 64   TwinCAT_SystemInfoVarList._AppInfo.ProjectName
+
+Ads Read ProjectName
+    PS>$project | Read-TcValue -Session $session
+    ADS_DynSymbols
+
+Ads Write ProjectName
+    PS>$project | Write-TcValue -Session $session -Value "NewProjectName"
+    PS>$project | Read-TcValue -Session $session
+    NewProjectName
+
+ReadWrite by Symbol Path
+    PS>Read-TcValue -SessionId 1 -Path "Main.bChange"
+    false
+    PS>Write-TcValue -SessionId 1 -Symbol "Main.bChange" -Value True
+    PS>Read-TcValue -SessionId 1 -Path "GVL.vgBool"
+    PS>Write-TcValue -SessionId 1 -Path "GVL.vgBool" -value $true
+
+ReadWrite by Piping
+    PS> $projectNameSymbol = $session | Get-TcSymbol -Recurse -path "*ProjectName"
+    PS> $projectNameSymbol | Read-TcValue -SessionId 1
+    PS> $projectNameSymbol | Write-TcValue -SessionId 1 -Value "NewProjectName"
+    PS> $projectNameSymbol | Read-TcValue -SessionId 1
+
+Get Target Information
+    PS> get-adsroute | Get-TcTargetInfo
+    
+    Target          Version      Level OS   Image Device CPUArch
+    ------          -------      ----- --   ----- ------ -------
+    TC3TESTA1-CP67X 3.1.4021.131 CP    Win7              IntelX86
+
+    PS> get-adsroute | Get-TcVersion
+    
+    Major  Minor  Build  Revision
+    -----  -----  -----  --------
+    3      1      4021   131
+
+PROVIDERS
+    The TcXaeMgmt module includes the AdsSymbolProvider and the AdsFileProvider
+
+    ADSSYMBOLPROVIDER
+    Binds the target device symbolic information to a PSDrive. To register a
+    symbol server as  PSDrive type (here the Target Route 'CX_01234' with
+    AmsPort: 851)
+
+    PS> New-PSDrive -Name CX_01234_Symbols -PSProvider AdsSymbolProvider -Address CX_01234 -Port 851 -Root 
+    PS> cd CX_01234_Symbols:
+    PS> CX_01234_Symbols:> dir
+
+    ADSFILEPROVIDER
+    PS> New-PSDrive -name CX_01234 -PSProvider AdsFileProvider -Address CX_01234 -Root ''
+    PS> dir CX_01234:
+    
+    Mode             LastWriteTime                    Length     Name
+    ----             -------------                    ------     ----
+    d----            30.11.2021 16:11:31                         BootDir
+    d----            03.12.2021 01:17:20                         BootProject
+    d----            17.03.2021 14:33:53                         ConfigDir
+    d----            03.12.2021 01:17:20                         Generic
+    d----            18.06.2021 08:00:22                         InstallDir
+    d----            03.12.2021 01:17:20                         RepositoryDir
+    d----            03.12.2021 15:32:03                         TargetDir
+    
+    > cd CX_01234:/BootDir
+    
+    PS CX_01234:\BootDir> dir
+    
+    Mode             LastWriteTime                    Length     Name
+    ----             -------------                    ------     ----
+    d----            05.10.2021 10:36:34                         CurrentConfig
+    -a---            05.10.2021 10:36:34              4563       CurrentConfig.tszip
+    -a---            05.10.2021 10:36:34              17113      CurrentConfig.xml
+    -a---            30.11.2021 16:11:31              126976     LoggedEvents.db
+    d----            27.10.2021 11:32:43                         Plc
+
+    MORE INFORMATION ABOUT PROVIDERS
+    PS> get-help about_providers
+
+    EXAMPLE: CREATE A NEW ADSFILEPROVIDER DRIVE TO THE TWINCAT DEVICE CX_01234
+    > New-PSDrive -name CX_01234 -PSProvider AdsFileProvider -Address CX_01234 -Root ''
+    
+    Name           Used (GB)     Free (GB) Provider        Root                 CurrentLocation
+    ----           ---------     --------- --------        ----------           ---------------
+    CX_01234                               AdsFileProvider \TargetDir
+
+    EXAMPLE: BROWSE THE FILES ON THE TWINCAT DEVICE CX_01234
+    > dir
+    
+    Mode             LastWriteTime                    Length     Name
+    ----             -------------                    ------     ----
+    d----            26.11.2021 17:44:27                         CACerts
+    -a---            14.03.2012 14:50:50              619        DefaultConfig.xml
+    d----            11.05.2021 14:42:45                         License
+    d----            18.06.2021 08:01:03                         Resource
+    d----            17.03.2021 15:15:51                         Routes
+    d----            18.06.2021 08:00:33                         StartMenuAdmin
+    d----            17.03.2021 14:33:35                         StartUp
+    -a---            30.11.2021 18:46:08              2253       StaticRoutes.xml
+    -a---            01.02.2012 16:42:58              494        TargetFeatures.xml
+    -a---            17.03.2021 14:42:50              3113       TcSelfSigned.xml
+
+    EXAMPLE: READ THE CONTENT OF THE STATICROUTS.XML ON TARGET CX_01234
+    r> get-content .\StaticRoutes.xml
+    <?xml version="1.0"?>
+    <TcConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <RemoteConnections>
+                    <Route>
+                            <Name>TargetIPC</Name>
+                            <Address>172.17.60.147</Address>
+                            <NetId>172.17.60.147.1.1</NetId>
+                            <Type>TCP_IP</Type>
+                            <Tls IgnoreCn="true">
+                                    <Ca>...</Ca>
+                            </Tls>
+                    </Route>
+                    <Server>
+                            <Tls IgnoreCn="true">
+                                    <Ca>c:\twincat\3.1\target\CACerts\RootCA.pem</Ca>
+                                    <Cert>c:\twincat\3.1\target\CACerts\TargetIPC.crt</Cert>
+                                    <Key>c:\twincat\3.1\target\CACerts\TargetIPC.key</Key>
+                            </Tls>
+                    </Server>
+            </RemoteConnections>
+    </TcConfig>
+
+FEEDBACK
+    Please submit any feedback, including defects and enhancement requests,  to 
+      support@beckhoff.com
+    We are also interested in suggestions you may have for cmdlets.  Over time,
+    we hope to be able to add some more features.
+
+NOTE
+    To see what functions are provided by TcXaeMgmt, execute the command:
+
+    PS> Get-Command -Module TcXaeMgmt -CommandType Function
+
+    For more information, most of the cmdlets have help associated with  them
+    e.g.:
+
+    PS> Get-Help Add-AdsRoute -full
+
+    The definitive information on a cmdlet's parameters can be obtained by
+    executing:
+
+    PS> Get-Command Add-AdsRoute -syntax
+
+    or more tersely:
+
+    PS> gcm Add-AdsRoute -syn
+
+SEE ALSO
+    Documentation TcXaeMgmt Module
+    About the TcXaeMgmt Module
+    Beckhoff Homepage
+    PS> get-help about_providers
+
+KEYWORDS
+    - ADS
+- TwinCAT
+- ManagementConsole
+- Routes
+

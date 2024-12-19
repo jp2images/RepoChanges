@@ -2,24 +2,23 @@
 .SYNOPSIS
     Return a list of the changes made to all of the repositories in a GitLab 
     project.
-
 .DESCRIPTION
     This script uses the GitLab REST API to list repositories, branches, and
     commits for a given project. The script will output the commits for each
     branch in each repository. The script will also output the number of
     repositories and branches in the project.
+.PARAMETER organization
+    The GitLab organization to query. Default is "NCS".
+
 
 .PARAMETER days
     The number of previous days to query for changes. Default is 1, which 
     will return all changes since yesterday.
-
-.PARAMETER atFilePath
+.PARAMETER patFilePath
     The path to the file containing the Access Token (AT) for authentication. 
     Default is "$env:USERPROFILE\.ssh\NCS-GitLab-at.txt".
-
 .PARAMETER help -or h
     Display the help message.
-
 .PARAMETER verbose -or v
     Display verbose output.
 
@@ -27,14 +26,17 @@
     PS> .\Get-RepoChangesGitLab.ps1 -days 3
     This example will query the GitLab project for changes in the last 3 days.
 
+
 .NOTES
     File Name      : Get-RepoChangesGitLab.ps1
     Author         : Jeff Patterson
     Prerequisite   : PowerShell V7
-    Date           : 2024-12-09
+    Date           : 2024-12-19
 #>
 
 param (
+    [string]$organization = "NCS", # Default organization
+    # [string]$project = "",
     [int]$days = 3,
     [string]$patFilePath = "$env:USERPROFILE\.ssh\NCS-GitLab-at.txt",
     [switch]$help,
@@ -102,6 +104,8 @@ $repoCountFilePath = "$env:USERPROFILE\repoCountGitLab.txt"
 $previousRepoCount = Get-PreviousRepoCount
 
 
+
+
 # Set the GitLab API URL for projects
 $uriProjects = "https://gitlab.com/api/v4/projects?membership=true&private_token=$personalAccessToken"
 
@@ -114,10 +118,10 @@ if ($showall) {
     Write-Host "Returning results between the dates: "
     Write-Host "$sinceDate through Today: $untilDate"
     Write-Host ""
-    Write-Host "      To change the date range, use the -days days parameter from the"
-    Write-Host "      command line, where days is a negative number indicating the number"
-    Write-Host "      of days back to query."
-    Write-Host "      E.g., .\Get-RepoChangesGitLab.ps1 -days -3"
+    Write-Host "`tTo change the date range, use the -days days parameter from the"
+    Write-Host "`tcommand line, where days is a positive number indicating the number"
+    Write-Host "`tof days back to query."
+    Write-Host "`tE.g., .\Get-RepoChangesGitLab.ps1 -days 3"
 }
 
 try {
@@ -141,11 +145,11 @@ foreach ($project in $projects) {
     $projectNum++
 
     # Set the GitLab API URL for branches
-    $branchesApiUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?private_token=$personalAccessToken"
+    $uriBranches = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?private_token=$personalAccessToken"
 
     try {
         # Get all branches
-        $branches = Invoke-RestMethod -Uri $branchesApiUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+        $branches = Invoke-RestMethod -Uri $uriBranches -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
     }
     catch {
         Write-Host "Error fetching branches: $_"
@@ -157,9 +161,7 @@ foreach ($project in $projects) {
     }
 
     $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
-
     Write-Host "Project $($projectNum): $($projectName) (ID: $projectId) $($branches.count) $pluralbranch"
-
     if ($showall) {
         Write-Host "================================================================================"
     }
@@ -167,31 +169,27 @@ foreach ($project in $projects) {
     foreach ($branch in $branches) {
         $branchName = $branch.name
         $commitsUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/commits?ref_name=$branchName&since=$sinceDate&until=$untilDate&private_token=$personalAccessToken"
-    
         # Make the API request to get the commits
-        $response = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
-    
-        $commitCount = $response.count
-        $maxWidth = 70
-
+        $commits = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+        $commitCount = $commits.count
+  
         if ($commitCount -ne 0) {
             Write-Host ""
-            Write-Host "`e[1mCommits from $projectName.$branchName`e[0m"
-            Write-Host "    -----"
+            Write-Host "`e[1mCommits from $($projectNum): $projectName.$branchName`e[0m"
+            Write-Host "`t-----"
                 
             # Display the commits
-            $response | ForEach-Object {  
+            $commits | ForEach-Object {  
                 $short_id = $_.short_id
                 $author = $_.author_name
                 $created_at = $_.created_at
-                $wrappedString = $_.message
-                $message = $wrappedString -replace "`n", ""
+                $comment = $_.message -replace "`n", ""
 
-                Write-Host "`tID:        $short_id"
-                Write-Host "`tAuthor:    $author"
-                Write-Host "`tDate:      $created_at"
-                Write-Host "`tComment:   $message"
-                Write-Host ""
+                Write-Host "`tCommit ID:  $short_id"
+                Write-Host "`tAuthor:     $author"
+                Write-Host "`tDate:       $created_at"
+                Write-Host "`tComment:    $comment"
+                Write-Host "`t-----"
             }
         }
     }
@@ -199,7 +197,6 @@ foreach ($project in $projects) {
 
 Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
-
 Write-Host ""
 Write-Host "GitLab check complete. ✔️"
 Write-Host ""
