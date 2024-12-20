@@ -133,7 +133,7 @@ try {
      Write-Host "GitLab REPOSITORY Count: $currentRepoCount"
  }
 catch {
-    Write-Host "Error fetching projects: $_"
+    Write-Host "`e[31mError fetching projects: $_`e[0m"
     throw
 }
 
@@ -152,19 +152,12 @@ foreach ($project in $projects) {
         $branches = Invoke-RestMethod -Uri $uriBranches -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
     }
     catch {
-        Write-Host "Error fetching branches: $_"
+        Write-Host "`e[37mError fetching branches: $_`e[0m"
         throw
-    }
-
-    if ($showall) {
-        Write-Host "================================================================================"
     }
 
     $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
     Write-Host "Project $($projectNum): $($projectName) (ID: $projectId) $($branches.count) $pluralbranch"
-    if ($showall) {
-        Write-Host "================================================================================"
-    }
 
     foreach ($branch in $branches) {
         $branchName = $branch.name
@@ -174,9 +167,7 @@ foreach ($project in $projects) {
         $commitCount = $commits.count
   
         if ($commitCount -ne 0) {
-            Write-Host ""
-            Write-Host "`e[1mCommits from $($projectNum): $projectName.$branchName`e[0m"
-            Write-Host "`t-----"
+            Write-Host "`e[36m`tFrom the $branchName branch`e[0m"
                 
             # Display the commits
             $commits | ForEach-Object {  
@@ -185,11 +176,13 @@ foreach ($project in $projects) {
                 $created_at = $_.created_at
                 $comment = $_.message -replace "`n", ""
 
-                Write-Host "`tCommit ID:  $short_id"
-                Write-Host "`tAuthor:     $author"
-                Write-Host "`tDate:       $created_at"
-                Write-Host "`tComment:    $comment"
+                Write-Host "`e[36m`tCommit ID:  $short_id`e[0m"
+                Write-Host "`e[36m`tAuthor:     $author`e[0m"
+                Write-Host "`e[36m`tDate:       $created_at`e[0m"
+                Write-Host "`e[36m`tComment:    $comment`e[0m"
+                
                 Write-Host "`t-----"
+                Write-Host ""
             }
         }
     }
@@ -198,5 +191,5 @@ foreach ($project in $projects) {
 Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
 Write-Host ""
-Write-Host "GitLab check complete. ✔️"
+Write-Host "`e[1;32mGitLab check complete. ✔️`e[0m"
 Write-Host ""

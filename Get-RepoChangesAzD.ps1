@@ -133,7 +133,7 @@ try{
     Write-Host "Azure DevOps REPOSITORY Count: $currentRepoCount"
 }
 catch {
-    Write-Host "Error fetching repos: $_"
+    Write-Host "`e[1;31mError fetching repos: $_`e[0m"
     throw
 }
 
@@ -152,19 +152,12 @@ foreach ($repo in $responseRepos.value) {
     $branches = Invoke-RestMethod -Uri $uriBranches -Headers @{Authorization = ("Basic {0}" -f $base64AuthInfo) }
     }
     catch {
-        Write-Host "Error fetching branches: $_"
+        Write-Host "`e[31mError fetching branches: $_`e[0m"
         throw
-    }
-
-    if ($showall) {
-        Write-Host "================================================================================"
     }
 
     $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
     Write-Host "Repository ${repoNum}: ${repoName} with $($branches.count) $pluralbranch"
-    if ($showall) {
-        Write-Host "================================================================================"
-    }
 
     foreach ($branch in $branches.value) {
         $branchName = $branch.name -replace "refs/heads/", ""
@@ -174,9 +167,7 @@ foreach ($repo in $responseRepos.value) {
         $commitCount = $commits.count
 
         if ($commitCount -ne 0) {
-            Write-Host ""
-            Write-Host "`e[1mCommits from $branchName`e[0m"
-            Write-Host "`t-----"
+            Write-Host "`e[36m`tFrom the $branchName branch`e[0m"
 
             # Display the commits
             $commits.value | ForEach-Object {
@@ -185,12 +176,12 @@ foreach ($repo in $responseRepos.value) {
                 $authorDate = $_.author.date
                 $comment = $_.comment
         
-                Write-Host "`tCommit ID: $commitId"
-                Write-Host "`tAuthor:    $author"
-                Write-Host "`tDate:      $authorDate"
-                Write-Host "`tComment:"
-                Write-HostWrapped -text "$comment"
+                Write-Host "`e[36m`tCommit ID: $commitId`e[36m"
+                Write-Host "`e[36m`tAuthor:    $author"
+                Write-Host "`e[36m`tDate:      $authorDate`e[36m"
+                Write-Host "`e[36m`tComment:   $comment`e[36m"
                 Write-Host "`t-----"
+                Write-Host ""
             }    
         }
     }
@@ -199,5 +190,5 @@ foreach ($repo in $responseRepos.value) {
 Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
 Write-Host ""
-Write-Host "Azure DevOps check complete. ✔️"
+Write-Host "`e[32mAzure DevOps check complete. ✔️`e[0m"
 Write-Host ""
