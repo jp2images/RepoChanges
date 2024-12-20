@@ -1,0 +1,16 @@
+<Types></Types>
+<!--<?xml version="1.0" encoding="utf-8"?>
+<Types>
+  <Type>
+    <Name>TwinCAT.RouteTarget</Name>
+    <TypeConverter>
+      <TypeName>TwinCAT.Management.Automation.PSRouteTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+  <Type>
+    <Name>TwinCAT.Ads.AmsPort</Name>
+    <TypeConverter>
+      <TypeName>TwinCAT.Management.Automation.PSPortTypeConverter</TypeName>
+    </TypeConverter>
+  </Type>
+</Types>-->
