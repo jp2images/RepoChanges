@@ -167,7 +167,7 @@ foreach ($project in $projects) {
         $commitCount = $commits.count
   
         if ($commitCount -ne 0) {
-            Write-Host "`e[36m`tFrom the $branchName branch`e[0m"
+            Write-Host "`e[93m   From branch: $branchName`e[0m"
                 
             # Display the commits
             $commits | ForEach-Object {  

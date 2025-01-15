@@ -111,3 +111,5 @@ msbuild.binlog
 
 # Ignore gzip files in the manpage folder
 assets/manpage/*.gz
+Microsoft.PowerToys.Configure.psd1
+Microsoft.PowerToys.Configure.psm1
