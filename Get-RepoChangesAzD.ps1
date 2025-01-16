@@ -167,7 +167,7 @@ foreach ($repo in $responseRepos.value) {
         $commitCount = $commits.count
 
         if ($commitCount -ne 0) {
-            Write-Host "`e[36m`tFrom the $branchName branch`e[0m"
+            Write-Host "`e[93m   From branch: $branchName`e[0m"
 
             # Display the commits
             $commits.value | ForEach-Object {
@@ -176,10 +176,10 @@ foreach ($repo in $responseRepos.value) {
                 $authorDate = $_.author.date
                 $comment = $_.comment
         
-                Write-Host "`e[36m`tCommit ID: $commitId`e[36m"
-                Write-Host "`e[36m`tAuthor:    $author"
-                Write-Host "`e[36m`tDate:      $authorDate`e[36m"
-                Write-Host "`e[36m`tComment:   $comment`e[36m"
+                Write-Host "`e[36m`tCommit ID: $commitId`e[0m"
+                Write-Host "`e[36m`tAuthor:`e[0m    `e[94m$author`e[0m"
+                Write-Host "`e[36m`tDate:      $authorDate`e[0m"
+                Write-Host "`e[36m`tComment:   $comment`e[0m"
                 Write-Host "`t-----"
                 Write-Host ""
             }    

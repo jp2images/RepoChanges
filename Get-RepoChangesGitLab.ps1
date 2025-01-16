@@ -177,7 +177,7 @@ foreach ($project in $projects) {
                 $comment = $_.message -replace "`n", ""
 
                 Write-Host "`e[36m`tCommit ID:  $short_id`e[0m"
-                Write-Host "`e[36m`tAuthor:     $author`e[0m"
+                Write-Host "`e[36m`tAuthor:`e[0m     `e[94m$author`e[0m"
                 Write-Host "`e[36m`tDate:       $created_at`e[0m"
                 Write-Host "`e[36m`tComment:    $comment`e[0m"
                 
