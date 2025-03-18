@@ -37,6 +37,9 @@ Set-Alias -Name changes $ScriptLocation\Get-RepoStatus.ps1 -Option AllScope
 # List all files in the current directory including hidden
 Set-Alias -Name lsf $ScriptLocation\Get-ChildItem-Force.ps1 -Option AllScope 
 
+
+# If there is a user on the calling machine that matches the string, then
+# create the aliases for that user.
 if($env:USERNAME -eq "JPatterson") {
     Set-Alias -Name webdev $ScriptLocation\Get-Folder-WebDev.ps1 -Option AllScope
 
@@ -61,14 +64,23 @@ if($env:USERNAME -eq "JPatterson") {
 
     function Get-GitSwitch { & git switch $args}
     Set-Alias -name gswitch Get-GitSwitch -Option AllScope
-}
 
+    function Get-FolderPLC { & Set-Location $env:Repos\Tunnel\PLC}
+    Set-Alias -Name plc Get-FolderPLC -Option AllScope
+    
+    function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup}
+    Set-Alias -Name config Get-FolderConfig -Option AllScope
+
+    # GitHub aliases
+    function Get-gh-create { & gh repo create --private --source=. --remote=origin & git push -u --all & gh browse }
+    Set-Alias -Name ghcreate Get-Gh-Create -Option AllScope
+} 
 else {
     Write-Host "The user $env:USERNAME does not have that alias."
 }
 
-
-Write-Host "Aliases for Git Commands."
+Write-Host ""
+Write-Host "`e[1;33mGit Command Aliases`e[0m"
 Write-Host "status  : git status."
 Write-Host "gswitch : git switch."
 Write-Host "fetch   : git fetch --all."
@@ -76,18 +88,25 @@ Write-Host "pull    : git pull."
 Write-Host "addall  : git add ."
 Write-Host "commit  : git commit."
 Write-Host "push    : git push."
+Write-Host "ghcreate: Create a new GitHub repo and push the current directory to it."
 Write-Host ""
-Write-Host "Aliases for changing directories."
-Write-Host "changes : Get the Repo Status."
+Write-Host "`e[1;33mREPO Updates`e[0m"
+Write-Host "`e[33mAdd integer: changes 3 to look back 3 days Fri-Sun`e[0m"
+Write-Host "changes : All Repo Status'."
 Write-Host "Azd     : Get the Azure DevOps Repo Changes."
 Write-Host "gitLab  : Get the GitLab Repo Changes."
-Write-Host "Repos   : Change to the Repos folder."
-Write-Host "Source  : Change to the Source folder."
-Write-Host "Tunnel  : Change to the Tunnel folder."
-Write-Host "Startup : Change to the Startup folder."
-Write-Host "PSRepo  : Change to the PSRepo folder."
-Write-Host "Training: Change to the Training folder."
-Write-Host "webdev  : Change to the WebDev folder."
 Write-Host ""
 Write-Host "lsf     : List all files in the current directory including hidden."
 Write-Host ""
+Write-Host "`e[1;33mFolder changing aliases.`e[0m"
+Write-Host "Source  : Source folder."
+Write-Host "Repos   : Repos folder."
+Write-Host "Startup : Startup folder."
+Write-Host "PSRepo  : PSRepo folder."
+Write-Host "Training: Training folder."
+Write-Host "webdev  : WebDev training folder."
+Write-Host "tunnel  : Tunnel folder."
+Write-Host "plc     : Tunnel Controller PLC Repo folder."
+Write-Host "config  : Tunnel Controller Setup Repo folder."
+Write-Host ""
+# *****************************************************************************
