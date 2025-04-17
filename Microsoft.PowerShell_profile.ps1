@@ -5,7 +5,12 @@ if ($env:USERNAME -eq "JPatterson") { }
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
     # This line is used for the CLI Extension oh-my-posh
     # that adds useful info and color to the prompt.
-    oh-my-posh init pwsh | Invoke-Expression
+    # oh-my-posh init pwsh | Invoke-Expression
+
+    # This DOES NOT ACTUALLY WORK. DUMB ChatGPT!
+    # Instead of using Invoke-Expression, you could use the following line:
+    # $omp = .\oh-my-posh init pwsh
+    # & $omp
 }
 else {
     Write-Host "oh-my-posh not initialized."
@@ -16,7 +21,7 @@ $ScriptLocation = Join-Path $env:USERPROFILE "\Documents\PowerShell\"
 
 # Aliases are not case sensitive in Windows.
 # These are aliases used to change directories quickly to the most common ones I use.
-# Set-Alias -Name Source $env:USERPROFILE\Documents\PowerShell\Get-SourceFolder.ps1 -Option AllScope
+Set-Alias -Name Source $env:USERPROFILE\Documents\PowerShell\Get-SourceFolder.ps1 -Option AllScope
 Set-Alias -Name Source $ScriptLocation\Get-FolderSource.ps1 -Option AllScope
 Set-Alias -Name Training $ScriptLocation\Get-FolderTraining.ps1 -Option AllScope
 Set-Alias -Name Repos $ScriptLocation\Get-FolderRepo.ps1 -Option AllScope
@@ -41,6 +46,7 @@ Set-Alias -Name lsf $ScriptLocation\Get-ChildItem-Force.ps1 -Option AllScope
 # If there is a user on the calling machine that matches the string, then
 # create the aliases for that user.
 if($env:USERNAME -eq "JPatterson") {
+    Write-Host "The user $env:USERNAME has aliases assigned."
     Set-Alias -Name webdev $ScriptLocation\Get-Folder-WebDev.ps1 -Option AllScope
 
     # Git Shortcut Aliases
@@ -76,36 +82,40 @@ if($env:USERNAME -eq "JPatterson") {
     Set-Alias -Name ghcreate Get-Gh-Create -Option AllScope
 } 
 else {
-    Write-Host "The user $env:USERNAME does not have that alias."
+    Write-Host "The user $env:USERNAME does not have aliases assigned."
 }
 
 Write-Host "`e[1;36mCommand Aliases for $env:USERNAME`e[0m"
 Write-Host "`e[1;33mREPOs`e[0m"
-Write-Host "`e[33mAdd integer: changes 3 to look back 3 days Fri-Sun`e[0m"
-Write-Host "changes : All Repo Status'."
-Write-Host "Azd     : Get the Azure DevOps Repo Changes."
-Write-Host "gitLab  : Get the GitLab Repo Changes."
-Write-Host "lsf     : List all files in the current directory including hidden."
+Write-Host "`e[33mAdd an integer to the commands E.g.: to see the previous 3 days`e[0m"
+Write-Host "`e[33m""changes 3"" to see both repo changes or for a specific one or`e[0m"
+Write-Host "`e[33m""gitLab 3"" and ""AzD 3""`e[0m"
+Write-Host "changes : Status of both repos"
+Write-Host "Azd     : Show the Azure DevOps Repo Changes."
+Write-Host "gitLab  : Show the GitLab Repo Changes."
+
 Write-Host ""
-Write-Host "`e[1;33mGit`e[0m"
-Write-Host "status  : git status."
-Write-Host "gswitch : git switch."
-Write-Host "fetch   : git fetch --all."
-Write-Host "pull    : git pull."
-Write-Host "addall  : git add ."
-Write-Host "commit  : git commit."
-Write-Host "push    : git push."
+Write-Host "`e[1;33mGIT`e[0m"
+Write-Host "status  : git status"
+Write-Host "gswitch : git switch"
+Write-Host "fetch   : git fetch --all"
+Write-Host "pull    : git pull"
+Write-Host "addall  : git add . (all)"
+Write-Host "commit  : git commit"
+Write-Host "push    : git push"
 Write-Host "ghcreate: Create a new GitHub repo and push the current directory to it."
+Write-Host "          This folder must alrady have a repo initialized."
 Write-Host ""
-Write-Host "`e[1;33mFolders`e[0m"
-Write-Host "Source  : Source folder."
-Write-Host "Repos   : Repos folder."
-Write-Host "Startup : Startup folder."
-Write-Host "PSRepo  : PSRepo folder."
-Write-Host "Training: Training folder."
-Write-Host "webdev  : WebDev training folder."
-Write-Host "tunnel  : Tunnel folder."
-Write-Host "plc     : Tunnel Controller PLC Repo folder."
-Write-Host "config  : Tunnel Controller Setup Repo folder."
+Write-Host "`e[1;33mFOLDERS:`e[0m"
+Write-Host "Source  : Source folder"
+Write-Host "Repos   : Repos folder"
+Write-Host "Startup : Startup folder"
+Write-Host "PSRepo  : PSRepo folder"
+Write-Host "Training: Training folder"
+Write-Host "webdev  : WebDev training folder"
+Write-Host "tunnel  : Tunnel folder"
+Write-Host "plc     : Tunnel Controller PLC Repo folder"
+Write-Host "config  : Tunnel Controller Setup Repo folder"
+Write-Host "lsf     : List all files in the current directory including hidden."
 Write-Host ""
 # *****************************************************************************
