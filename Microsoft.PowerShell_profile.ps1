@@ -5,7 +5,7 @@ if ($env:USERNAME -eq "JPatterson") { }
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
     # This line is used for the CLI Extension oh-my-posh
     # that adds useful info and color to the prompt.
-    # oh-my-posh init pwsh | Invoke-Expression
+    oh-my-posh init pwsh | Invoke-Expression
 
     # This DOES NOT ACTUALLY WORK. DUMB ChatGPT!
     # Instead of using Invoke-Expression, you could use the following line:
@@ -87,13 +87,13 @@ else {
 
 Write-Host "`e[1;36mCommand Aliases for $env:USERNAME`e[0m"
 Write-Host "`e[1;33mREPOs`e[0m"
-Write-Host "`e[33mAdd an integer to the commands E.g.: to see the previous 3 days`e[0m"
-Write-Host "`e[33m""changes 3"" to see both repo changes or for a specific one or`e[0m"
-Write-Host "`e[33m""gitLab 3"" and ""AzD 3""`e[0m"
+Write-Host "`e[33mAdd an integer to the command ""changes 3"", to list the commits from the`e[0m"
+Write-Host "`e[33mprevious 3 days. To see changes from only one repo add the switch -days 2 `e[0m"
+Write-Host "`e[33mto the command ""gitlab -days 3"" or ommit the switch and number to see`e[0m"
+Write-Host "`e[33mcommits from the previous 24 hours. ""azd"" or ""gitlab""`e[0m"
 Write-Host "changes : Status of both repos"
 Write-Host "Azd     : Show the Azure DevOps Repo Changes."
 Write-Host "gitLab  : Show the GitLab Repo Changes."
-
 Write-Host ""
 Write-Host "`e[1;33mGIT`e[0m"
 Write-Host "status  : git status"
