@@ -1,19 +1,35 @@
 # Snippet to test for the current user
 if ($env:USERNAME -eq "JPatterson") { }
 
-# Test if an extension is installed and if not install it.
-if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    # This line is used for the CLI Extension oh-my-posh
-    # that adds useful info and color to the prompt.
-    oh-my-posh init pwsh | Invoke-Expression
-
-    # This DOES NOT ACTUALLY WORK. DUMB ChatGPT!
-    # Instead of using Invoke-Expression, you could use the following line:
-    # $omp = .\oh-my-posh init pwsh
-    # & $omp
+function Test-IsAdmin {
+    $currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($currentIdentity)
+    return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
-else {
-    Write-Host "oh-my-posh not initialized."
+
+# Only run oh-my-posh if NOT in Constrained Language Mode and running as admin
+if ($ExecutionContext.SessionState.LanguageMode -ne 'ConstrainedLanguage') {
+
+    Write-Host "Running as Administrator."
+    # Test if an extension is installed and if not install it.
+    if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+        # This line is used for the CLI Extension oh-my-posh
+        # that adds useful info and color to the prompt.
+        oh-my-posh init pwsh | Invoke-Expression
+
+        # This DOES NOT ACTUALLY WORK. DUMB ChatGPT!
+        # Instead of using Invoke-Expression, you could use the following line:
+        # $omp = .\oh-my-posh init pwsh
+        # & $omp
+    }
+} else {
+    Write-Host "Not running as Administrator. "
+    Write-Host "While in [Constrained Language Mode], some features may not work as expected."
+    Write-Host "oh-my-posh Currently only runs in an elevated (admin) session until CLI is changed."
+    Write-Host ""
+    Write-Host "Press any key to continue..."
+    Read-Host
+    Clear-Host
 }
 
 # Simplify the path to the PowerSehll scripts and make the lines shorter.
@@ -21,7 +37,7 @@ $ScriptLocation = Join-Path $env:USERPROFILE "\Documents\PowerShell\"
 
 # Aliases are not case sensitive in Windows.
 # These are aliases used to change directories quickly to the most common ones I use.
-Set-Alias -Name Source $env:USERPROFILE\Documents\PowerShell\Get-SourceFolder.ps1 -Option AllScope
+# Set-Alias -Name Source $env:USERPROFILE\Documents\PowerShell\Get-SourceFolder.ps1 -Option AllScope
 Set-Alias -Name Source $ScriptLocation\Get-FolderSource.ps1 -Option AllScope
 Set-Alias -Name Training $ScriptLocation\Get-FolderTraining.ps1 -Option AllScope
 Set-Alias -Name Repos $ScriptLocation\Get-FolderRepo.ps1 -Option AllScope
