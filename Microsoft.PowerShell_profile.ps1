@@ -82,10 +82,16 @@ if($env:USERNAME -eq "JPatterson") {
     Set-Alias -Name push Get-GitPush -Option AllScope
 
     function Get-GitCommit { & git commit $args}
-    Set-Alias -name commit Get-GitCommit -Option AllScope
+    Set-Alias -Name commit Get-GitCommit -Option AllScope
 
     function Get-GitSwitch { & git switch $args}
-    Set-Alias -name gswitch Get-GitSwitch -Option AllScope
+    Set-Alias -Name gswitch Get-GitSwitch -Option AllScope
+
+    function Get-GitDeleteUnstaged { git checkout . $args }
+    Set-Alias -Name undo -Value Get-GitDeleteUnstaged -Option AllScope
+
+    function Get-GitforcePush { git push --force-with-lease $args }
+    Set-Alias -Name pushf -Value Get-GitforcePush -Option AllScope
 
     # GitHub aliases
     function Get-gh-create { & gh repo create --private --source=. --remote=origin & git push -u --all & gh browse }
@@ -116,8 +122,10 @@ Write-Host "pull    : git pull"
 Write-Host "addall  : git add . (all)"
 Write-Host "commit  : git commit"
 Write-Host "push    : git push"
+Write-Host "pushf   : git push --force-with-lease (Prevents overwriting origin changes that you do not have.)"
+Write-Host "undo    : git checkout . (Discarding local, unstaged edits.)"
 Write-Host "ghcreate: Create a new GitHub repo and push the current directory to it."
-Write-Host "          This folder must alrady have a repo initialized."
+Write-Host "          The local folder must alrady have a repo initialized."
 Write-Host ""
 Write-Host "`e[1;33mFOLDERS:`e[0m"
 Write-Host "Source  : Source folder"
