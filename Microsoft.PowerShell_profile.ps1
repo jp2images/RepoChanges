@@ -1,5 +1,10 @@
 # Snippet to test for the current user
-if ($env:USERNAME -eq "JPatterson") { }
+if ($env:USERNAME -eq "JPatterson") {
+    # I have an SSH key setup to deploy the TunnelControlUI application to the
+    # Raspberry Pi NGINX server.
+    Write-Host "Adding SSH key for user $env:USERNAME"
+    ssh-add $env:USERPROFILE\.ssh\id_ed25519
+ }
 
 function Test-IsAdmin {
     $currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
