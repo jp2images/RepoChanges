@@ -52,12 +52,12 @@ if($v -or $verbose) {
 
 Clear-Host
 
-& $env:USERPROFILE\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "AzD" -searchDays $days
-if ($showall) {
-    AzD -verbose -days $days
-} else {
-    AzD -days $days
-}
+# & $env:USERPROFILE\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "AzD" -searchDays $days
+# if ($showall) {
+#     AzD -verbose -days $days
+# } else {
+#     AzD -days $days
+# }
 
 & C:\Users\JPatterson\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "GitLab" -searchDays $days
 if($showall) {

@@ -51,7 +51,7 @@ Set-Alias -Name Repos $ScriptLocation\Get-FolderRepo.ps1 -Option AllScope
 Set-Alias -Name Tunnel $ScriptLocation\Get-FolderTunnel.ps1 -Option AllScope
 Set-Alias -Name Startup $ScriptLocation\Get-FolderAutoStartup.ps1 -Option AllScope
 Set-Alias -Name PSR $ScriptLocation\Get-FolderPSRepo.ps1 -Option AllScope
-Set-Alias -Name plc $ScriptLocation\Get-FolderPLC -Option AllScope
+# Set-Alias -Name plc $ScriptLocation\Get-FolderPLC -Option AllScope
 
 # *****************************************************************************
 # Lets do some cool stuff
@@ -107,7 +107,7 @@ if($env:USERNAME -eq "JPatterson") {
     function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup}
     Set-Alias -Name config Get-FolderConfig -Option AllScope
 
-    
+
     function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\plc-alpha}
     Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
 
