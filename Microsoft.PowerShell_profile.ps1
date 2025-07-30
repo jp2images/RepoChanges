@@ -1,3 +1,5 @@
+Invoke-Expression (& { (jj util completion power-shell | Out-String) })
+
 # Snippet to test for the current user
 if ($env:USERNAME -eq "JPatterson") {
     # I have an SSH key setup to deploy the TunnelControlUI application to the
@@ -104,6 +106,13 @@ if($env:USERNAME -eq "JPatterson") {
 
     function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup}
     Set-Alias -Name config Get-FolderConfig -Option AllScope
+
+    
+    function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\plc-alpha}
+    Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
+
+    function Get-FolderBeta { & Set-Location $env:Repos\Tunnel\plc-beta}
+    Set-Alias -Name beta Get-FolderBeta -Option AllScope
 } 
 else {
     Write-Host "The user $env:USERNAME does not have aliases assigned."
