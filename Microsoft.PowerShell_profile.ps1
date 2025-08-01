@@ -37,7 +37,6 @@ if ($ExecutionContext.SessionState.LanguageMode -ne 'ConstrainedLanguage') {
     Write-Host "Press any key to continue..."
     Read-Host
     Clear-Host
-    prompt
 }
 
 # Simplify the path to the PowerSehll scripts and make the lines shorter.
@@ -59,11 +58,14 @@ Set-Alias -Name PSR $ScriptLocation\Get-FolderPSRepo.ps1 -Option AllScope
 # *****************************************************************************
 
 # Custom prompt function to show only the current folder name
-function prompt {
-    $currentFolder = Split-Path -Leaf -Path (Get-Location)
-    Write-Host "$currentFolder" -NoNewline -ForegroundColor Green
-    Write-Host ">" -NoNewline -ForegroundColor White
-    return " "
+# Only use this if oh-my-posh is not running
+if ($ExecutionContext.SessionState.LanguageMode -eq 'ConstrainedLanguage' -or !(Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    function prompt {
+        $currentFolder = Split-Path -Leaf -Path (Get-Location)
+        Write-Host "$currentFolder" -NoNewline -ForegroundColor Green
+        Write-Host ">" -NoNewline -ForegroundColor White
+        return " "
+    }
 }
 
 
@@ -135,10 +137,10 @@ Write-Host "`e[1;33mREPOs`e[0m"
 Write-Host "`e[33mAdd an integer to the command ""changes 3"", to list the commits from the`e[0m"
 Write-Host "`e[33mprevious 3 days. To see changes from only one repo add the switch -days 2 `e[0m"
 Write-Host "`e[33mto the command ""gitlab -days 3"" or ommit the switch and number to see`e[0m"
-Write-Host "`e[33mcommits from the previous 24 hours. ""azd"" or ""gitlab""`e[0m"
+Write-Host "`e[33mcommits from the previous 24 hours. ""gitlab""`e[0m"
 Write-Host "changes : Status of GitLab Engineering Repo"
 # Write-Host "Azd     : Show the Azure DevOps Repo Changes."
-Write-Host "gitLab  : Show the GitLab Repo Changes."
+# Write-Host "gitLab  : Show the GitLab Repo Changes."
 Write-Host ""
 Write-Host "`e[1;33mGIT`e[0m"
 Write-Host "status  : git status"
