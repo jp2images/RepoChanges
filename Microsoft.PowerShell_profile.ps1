@@ -62,7 +62,7 @@ Set-Alias -Name PSR $ScriptLocation\Get-FolderPSRepo.ps1 -Option AllScope
 function prompt {
     $currentFolder = Split-Path -Leaf -Path (Get-Location)
     Write-Host "$currentFolder" -NoNewline -ForegroundColor Green
-    Write-Host " > " -NoNewline -ForegroundColor White
+    Write-Host ">" -NoNewline -ForegroundColor White
     return " "
 }
 
