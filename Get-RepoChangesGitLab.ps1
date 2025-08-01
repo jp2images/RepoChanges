@@ -126,7 +126,7 @@ if ($showall) {
 
 try {
     # Fetch all projects
-    $projects = Invoke-RestMethod -Uri $uriProjects -Method Get -Headers @{ "PRIVATE-TOKEN" = $accessToken }
+    $projects = Invoke-RestMethod -Uri $uriProjects -Method Get -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
     $currentRepoCount = $projects.count
     # Save the current repo count to the file
     Save-RepoCount -count $currentRepoCount

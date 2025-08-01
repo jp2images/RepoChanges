@@ -24,6 +24,6 @@ if ($searchDays -ge 2) {
 }
 
 Write-Host "--------------------------------------------------------------------------------"
-Write-Host "Checking the Azure DevOps Repositories using the Alias '$repo'"
+Write-Host "Checking the Git Repositories in GitLab using the Alias '$repo'"
 Write-Host $searchDescription
 Write-Host "--------------------------------------------------------------------------------" 

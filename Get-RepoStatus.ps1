@@ -59,6 +59,7 @@ Clear-Host
 #     AzD -days $days
 # }
 
+# Run the script Search Criteria
 & C:\Users\JPatterson\Documents\PowerShell\Write-SearchCriteria.ps1 -repo "GitLab" -searchDays $days
 if($showall) {
     gitlab -verbose -days $days
