@@ -39,19 +39,11 @@ if ($ExecutionContext.SessionState.LanguageMode -ne 'ConstrainedLanguage') {
     Clear-Host
 }
 
-# Simplify the path to the PowerSehll scripts and make the lines shorter.
-$ScriptLocation = Join-Path $env:USERPROFILE "\Documents\PowerShell\"
-
-# Aliases are not case sensitive in Windows.
-# These are aliases used to change directories quickly to the most common ones I use.
-# Set-Alias -Name Source $env:USERPROFILE\Documents\PowerShell\Get-SourceFolder.ps1 -Option AllScope
-Set-Alias -Name Source $ScriptLocation\Get-FolderSource.ps1 -Option AllScope
-Set-Alias -Name Training $ScriptLocation\Get-FolderTraining.ps1 -Option AllScope
-Set-Alias -Name Repos $ScriptLocation\Get-FolderRepo.ps1 -Option AllScope
-Set-Alias -Name Tunnel $ScriptLocation\Get-FolderTunnel.ps1 -Option AllScope
-Set-Alias -Name Startup $ScriptLocation\Get-FolderAutoStartup.ps1 -Option AllScope
-Set-Alias -Name PSR $ScriptLocation\Get-FolderPSRepo.ps1 -Option AllScope
-# Set-Alias -Name plc $ScriptLocation\Get-FolderPLC -Option AllScope
+# Load custom aliases from separate script
+$AliasScript = Join-Path $env:USERPROFILE "\Documents\PowerShell\Set-Aliases.ps1"
+if (Test-Path $AliasScript) {
+    . $AliasScript
+}
 
 # *****************************************************************************
 # Lets do some cool stuff
@@ -69,106 +61,5 @@ if ($ExecutionContext.SessionState.LanguageMode -eq 'ConstrainedLanguage' -or !(
 }
 
 
-# Azure DevOps Repo Changes
-Set-Alias -Name Azd $ScriptLocation\Get-RepoChangesAzD.ps1 -Option AllScope
-Set-Alias -Name gitLab $ScriptLocation\Get-RepoChangesGitLab.ps1 -Option AllScope
-Set-Alias -Name changes $ScriptLocation\Get-RepoStatus.ps1 -Option AllScope
 
-# Command Aliases to make it easier to enter CLI commands
-# List all files in the current directory including hidden
-Set-Alias -Name lsf $ScriptLocation\Get-ChildItem-Force.ps1 -Option AllScope 
-
-# If there is a user on the calling machine that matches the string, then
-# create the aliases for that user.
-if($env:USERNAME -eq "JPatterson") {
-    Write-Host "The user $env:USERNAME has aliases assigned."
-    Set-Alias -Name webdev $ScriptLocation\Get-FolderWebDev.ps1 -Option AllScope
-
-    # Git Shortcut Aliases
-    function Get-GitStatus { & git status $args}
-    Set-Alias -Name status Get-GitStatus -Option AllScope
-    function Get-GitFetchAll { & git fetch --all}
-    Set-Alias -name fetch Get-GitFetchAll -Option AllScope
-    function Get-GitAddAll { & git add .}
-    Set-Alias -Name addall Get-GitAddAll -Option AllScope
-    function Get-GitPull { & git pull $args}
-    Set-Alias -Name pull Get-GitPull -Option AllScope
-    function Get-GitPush { & git push $args}
-    Set-Alias -Name push Get-GitPush -Option AllScope
-    function Get-GitCommit { & git commit $args}
-    Set-Alias -Name commit Get-GitCommit -Option AllScope
-    function Get-GitSwitch { & git switch $args}
-    Set-Alias -Name gswitch Get-GitSwitch -Option AllScope
-    function Get-GitDeleteUnstaged { git checkout . $args }
-    Set-Alias -Name undo -Value Get-GitDeleteUnstaged -Option AllScope
-    function Get-GitforcePush { git push --force-with-lease $args }
-    Set-Alias -Name pushf -Value Get-GitforcePush -Option AllScope
-
-    # GitHub aliases
-    function Get-gh-create { & gh repo create --private --source=. --remote=origin & git push -u --all & gh browse }
-    Set-Alias -Name ghcreate Get-Gh-Create -Option AllScope
-
-    # Tunnel Projects
-    function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup}
-    Set-Alias -Name config Get-FolderConfig -Option AllScope
-    function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\plc-alpha}
-    Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
-    function Get-FolderBeta { & Set-Location $env:Repos\Tunnel\plc-beta}
-    Set-Alias -Name beta Get-FolderBeta -Option AllScope
-    function Get-FolderHmi { & Set-Location $env:Repos\Tunnel\hmi}
-    Set-Alias -Name hmi Get-FolderHmi -Option AllScope
-
-    # Neuron Projects:
-    function Get-FolderNeuronBackend { & Set-Location $env:Repos\Tunnel\Neuron\NeuronBackend}
-    Set-Alias -Name neuronb Get-FolderNeuronBackend -Option AllScope
-    function Get-FolderNeuronBackend { & Set-Location $env:Repos\Tunnel\Neuron\NeuronBackend}
-    Set-Alias -Name nb Get-FolderNeuronBackend -Option AllScope
-    function Get-FolderNeuronIO { & Set-Location $env:Repos\Tunnel\Neuron\io-alpha}
-    Set-Alias -Name neuronio Get-FolderNeuronIO -Option AllScope
-    function Get-FolderNeuronIO { & Set-Location $env:Repos\Tunnel\Neuron\io-alpha}
-    Set-Alias -Name nio Get-FolderNeuronIO -Option AllScope
-} 
-else {
-    Write-Host "The user $env:USERNAME does not have aliases assigned."
-}
-
-Write-Host "`e[1;36mCommand Aliases for $env:USERNAME`e[0m"
-Write-Host "`e[1;33mREPOs`e[0m"
-Write-Host "`e[33mAdd an integer to the command ""changes 3"", to list the commits from the`e[0m"
-Write-Host "`e[33mprevious 3 days. To see changes from only one repo add the switch -days 2 `e[0m"
-Write-Host "`e[33mto the command ""gitlab -days 3"" or ommit the switch and number to see`e[0m"
-Write-Host "`e[33mcommits from the previous 24 hours. ""gitlab""`e[0m"
-Write-Host "changes : Status of GitLab Engineering Repo"
-# Write-Host "Azd     : Show the Azure DevOps Repo Changes."
-# Write-Host "gitLab  : Show the GitLab Repo Changes."
-Write-Host ""
-Write-Host "`e[1;33mGIT`e[0m"
-Write-Host "status  : git status"
-Write-Host "gswitch : git switch"
-Write-Host "fetch   : git fetch --all"
-Write-Host "pull    : git pull"
-Write-Host "addall  : git add . (all)"
-Write-Host "commit  : git commit"
-Write-Host "push    : git push"
-Write-Host "pushf   : git push --force-with-lease (Prevents overwriting origin changes that you do not have.)"
-Write-Host "undo    : git checkout . (Discarding local, unstaged edits.)"
-Write-Host "ghcreate: Create a new GitHub repo and push the current directory to it."
-Write-Host "          The local folder must alrady have a repo initialized."
-Write-Host ""
-Write-Host "`e[1;33mFOLDERS:`e[0m"
-Write-Host "Source  : Source folder"
-Write-Host "Repos   : Repos folder"
-Write-Host "Startup : Startup folder"
-Write-Host "PSR     : PSRepo folder"
-Write-Host "Training: Training folder"
-Write-Host "webdev  : WebDev training folder"
-Write-Host "tunnel  : Tunnel folder"
-Write-Host "alpha   : Alpha Tunnel Controller PLC Repo folder"
-Write-Host "beta    : Beta Tunnel Controller PLC Repo folder"
-Write-Host "hmi     : Tunnel Controller TcHMI Repo folder"
-Write-Host "config  : Tunnel Controller Setup Repo folder"
-Write-Host "nb      : Neuron Backend Tunnel Controller Repo"
-Write-Host "nio     : Neuron PLC IO for Tunnel Controller (Alpha)"
-Write-Host "lsf     : List all files in the current directory including hidden."
-Write-Host ""
 # *****************************************************************************
