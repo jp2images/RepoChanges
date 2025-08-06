@@ -1,0 +1,68 @@
+# PowerShell Aliases Configuration
+# This script contains all the custom aliases for the PowerShell profile
+
+# Simplify the path to the PowerShell scripts
+$ScriptLocation = Join-Path $env:USERPROFILE "\Documents\PowerShell\"
+
+# Display the alias help when the script is loaded
+# Show-AliasHelp
+
+# *****************************************************************************
+# USER-SPECIFIC ALIASES (JPatterson)
+# *****************************************************************************
+
+if($env:USERNAME -ne "JPatterson") {
+    Write-Host "The user $env:USERNAME does not have aliases assigned."
+    return
+} 
+
+    Write-Host ""
+    Write-Host "`e[1mCreating user Aliases for `e[1;33m$env:USERNAME`e[0m`e[22m — "
+    Write-Host "`e[1;33mWARNING:`e[0m These are specific folder locations on the local machine"
+    Write-Host "and may not work properly for other users."
+    # Write-Host ""
+
+    # Tunnel Project Navigation
+    function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup }
+    Write-Host "  config            -> Tunnel setup folder" -ForegroundColor DarkGray
+    Set-Alias -Name config Get-FolderConfig -Option AllScope
+    
+    function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\plc-alpha }
+    Write-Host "  alpha             -> Alpha PLC folder" -ForegroundColor DarkGray
+    Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
+    
+    function Get-FolderBeta { & Set-Location $env:Repos\Tunnel\plc-beta }
+    Write-Host "  beta              -> Beta PLC folder" -ForegroundColor DarkGray
+    Set-Alias -Name beta Get-FolderBeta -Option AllScope
+    
+    function Get-FolderHmi { & Set-Location $env:Repos\Tunnel\hmi }
+    Write-Host "  hmi               -> HMI folder" -ForegroundColor DarkGray
+    Set-Alias -Name hmi Get-FolderHmi -Option AllScope
+
+    # Neuron Project Navigation
+    function Get-FolderNeuronController { & Set-Location $env:Repos\Tunnel\Neuron\NeuronController }
+    Write-Host "  nb, neuronb       -> Neuron Controller Blazor application folder" -ForegroundColor DarkGray
+    Set-Alias -Name neuronb Get-FolderNeuronController -Option AllScope
+    Set-Alias -Name nb Get-FolderNeuronController -Option AllScope
+    
+    function Get-FolderNeuronIO { & Set-Location $env:Repos\Tunnel\Neuron\io-alpha }
+    Write-Host "  nio, neuronio     -> Neuron IO folder" -ForegroundColor DarkGray
+    Set-Alias -Name neuronio Get-FolderNeuronIO -Option AllScope
+    Set-Alias -Name nio Get-FolderNeuronIO -Option AllScope
+
+    # Web Development
+    Write-Host "  webdev            -> Web development folder" -ForegroundColor DarkGray
+    Set-Alias -Name webdev $ScriptLocation\Get-FolderWebDev.ps1 -Option AllScope
+    Write-Host "  Source            -> Source folder navigation" -ForegroundColor DarkGray
+    Set-Alias -Name Source $ScriptLocation\Get-FolderSource.ps1 -Option AllScope
+    Write-Host "  Training          -> Training folder navigation" -ForegroundColor DarkGray
+    Set-Alias -Name Training $ScriptLocation\Get-FolderTraining.ps1 -Option AllScope
+    Write-Host "  Repos             -> Repos folder navigation" -ForegroundColor DarkGray
+    Set-Alias -Name Repos $ScriptLocation\Get-FolderRepo.ps1 -Option AllScope
+    Write-Host "  Tunnel            -> Tunnel folder navigation" -ForegroundColor DarkGray
+    Set-Alias -Name Tunnel $ScriptLocation\Get-FolderTunnel.ps1 -Option AllScope
+
+    # GitHub Aliases
+    function Get-gh-create { & gh repo create --private --source=. --remote=origin & git push -u --all & gh browse }
+    Write-Host "  ghcreate          -> Create private GitHub repo from current dir" -ForegroundColor DarkGray
+    Set-Alias -Name ghcreate Get-Gh-Create -Option AllScope

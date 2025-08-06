@@ -30,12 +30,13 @@ if ($ExecutionContext.SessionState.LanguageMode -ne 'ConstrainedLanguage') {
         # & $omp
     }
 } else {
+    Write-Host "Running as $env:USERNAME."
     Write-Host "Not running as Administrator. "
     Write-Host "While in [Constrained Language Mode], some features may not work as expected."
     Write-Host "oh-my-posh Currently only runs in an elevated (admin) session until CLI is changed."
     Write-Host ""
-    Write-Host "Press any key to continue..."
-    Read-Host
+    # Write-Host "Press any key to continue..."
+    # Read-Host
     Clear-Host
 }
 
@@ -44,6 +45,14 @@ $AliasScript = Join-Path $env:USERPROFILE "\Documents\PowerShell\Set-Aliases.ps1
 if (Test-Path $AliasScript) {
     . $AliasScript
 }
+
+$UserAliasScript = Join-Path $env:USERPROFILE "\Documents\PowerShell\Set-Aliases_JPatterson.ps1"
+if (Test-Path $UserAliasScript) {
+    . $UserAliasScript
+} else {
+    Write-Host "No User Alias files found: $UserAliasScript"
+}
+
 
 # *****************************************************************************
 # Lets do some cool stuff
@@ -59,7 +68,5 @@ if ($ExecutionContext.SessionState.LanguageMode -eq 'ConstrainedLanguage' -or !(
         return " "
     }
 }
-
-
 
 # *****************************************************************************
