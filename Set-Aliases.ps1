@@ -15,7 +15,7 @@ Write-Host "`e[1;33mGIT Commands that will work for anyone`e[0m"
 
 # Git Shortcut Functions and Aliases
 function Get-GitStatus { & git status $args }
-Write-Host "  st, status        -> git status" -ForegroundColor DarkGray
+Write-Host "  gst, status       -> git status" -ForegroundColor DarkGray
 Set-Alias -Name gst Get-GitStatus -Option AllScope
 Set-Alias -Name status Get-GitStatus -Option AllScope
 
