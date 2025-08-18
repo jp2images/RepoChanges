@@ -17,22 +17,17 @@ if($env:USERNAME -ne "JPatterson") {
 } 
 
 Write-Host ""
-Write-Host "`e[1mCreating user Aliases for `e[1;33m$env:USERNAME`e[0m`e[22m — "
-Write-Host "`e[1;33mWARNING:`e[0m These are specific folder locations on the local machine"
-Write-Host "and may not work properly for other users."
+Write-Host "`e[1mAliases for the user: `e[1;33m$env:USERNAME`e[0m`e[22m — "
+Write-Host "`e[1;33mWARNING:`e[0m These aliases contain specific folders and locations,"
+Write-Host "and may not work properly for other users and other machines."
 # Write-Host ""
-
-function Get-GitPush { & git push $args }
-Write-Host "  ghpsh, ghpush     -> git push github" -ForegroundColor DarkGray
-Set-Alias -Name ghpsh Get-GitPush -Option AllScope
-Set-Alias -Name ghpush Get-GitPush -Option AllScope
 
 # Tunnel Project Navigation
 function Get-FolderConfig { & Set-Location $env:Repos\Tunnel\setup }
 Write-Host "  config            -> Tunnel setup folder" -ForegroundColor DarkGray
 Set-Alias -Name config Get-FolderConfig -Option AllScope
 
-function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\plc-alpha }
+function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\alpha }
 Write-Host "  alpha             -> Alpha PLC folder" -ForegroundColor DarkGray
 Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
 
@@ -71,3 +66,7 @@ Set-Alias -Name Tunnel $ScriptLocation\Get-FolderTunnel.ps1 -Option AllScope
 function Get-gh-create { & gh repo create --private --source=. --remote=origin & git push -u --all & gh browse }
 Write-Host "  ghcreate          -> Create private GitHub repo from current dir" -ForegroundColor DarkGray
 Set-Alias -Name ghcreate Get-Gh-Create -Option AllScope
+function Get-GitPush { & git push github }
+Write-Host "  ghpsh, ghpush     -> git push github" -ForegroundColor DarkGray
+Set-Alias -Name ghpsh Get-GitPush -Option AllScope
+Set-Alias -Name ghpush Get-GitPush -Option AllScope

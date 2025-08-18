@@ -152,8 +152,14 @@ foreach ($project in $projects) {
         $branches = Invoke-RestMethod -Uri $uriBranches -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
     }
     catch {
-        Write-Host "`e[37mError fetching branches: $_`e[0m"
-        throw
+        # Write-Host "`e[37mError fetching branches: $_`e[0m"
+        if ($_.Exception.Response.StatusCode -eq 403) {
+                Write-Host "Project $($projectNum): 403 Forbidden Access: $($projectName) (ID: $projectId) $($branches.count) $pluralbranch" -ForegroundColor Red
+            # Write-Host "Continuing..."
+            continue  # Skips to next repo in the loop
+        } else {
+            throw  # Rethrow other errors
+        }
     }
 
     $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
