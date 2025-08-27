@@ -31,7 +31,7 @@ function Get-FolderAlpha { & Set-Location $env:Repos\Tunnel\alpha }
 Write-Host "  alpha             -> Alpha PLC folder" -ForegroundColor DarkGray
 Set-Alias -Name alpha Get-FolderAlpha -Option AllScope
 
-function Get-FolderBeta { & Set-Location $env:Repos\Tunnel\plc-beta }
+function Get-FolderBeta { & Set-Location $env:Repos\Tunnel\beta }
 Write-Host "  beta              -> Beta PLC folder" -ForegroundColor DarkGray
 Set-Alias -Name beta Get-FolderBeta -Option AllScope
 
