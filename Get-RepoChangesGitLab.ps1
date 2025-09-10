@@ -153,9 +153,6 @@ catch {
     throw
 }
 
-$projectNum = 0
-
-
 
 # Add index to each project before parallelization using PSCustomObject
 $indexedProjects = @()
@@ -169,7 +166,11 @@ for ($i = 0; $i -lt $allProjects.Length; $i++) {
     }
 }
 
-# Parallelize projects (outer loop) with index
+
+# Use local arrays for accessible/inaccessible projects in parallel block
+$localAccessible = @()
+$localInaccessible = @()
+
 $indexedProjects | ForEach-Object -Parallel {
     $projectName = $_.name
     $projectId = $_.id
@@ -184,6 +185,7 @@ $indexedProjects | ForEach-Object -Parallel {
     $allBranches = @()
     $branchPage = 1
     $hasMoreBranches = $true
+    $isAccessible = $true
     while ($hasMoreBranches) {
         $uriBranches = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?per_page=$perPage&page=$branchPage&private_token=$personalAccessToken"
         try {
@@ -197,7 +199,8 @@ $indexedProjects | ForEach-Object -Parallel {
         }
         catch {
             if ($_.Exception.Response.StatusCode -eq 403) {
-                Write-Host "Project ${projectIndex}/${totalProjects}: 403 Forbidden Access: $($projectName) (ID: $projectId)" -ForegroundColor Red
+                Write-Host "Project ${projectIndex}/${totalProjects}: 403 Forbidden Access: $($projectName) (ID: $projectId) [NO ACCESS]" -ForegroundColor Red
+                $isAccessible = $false
                 $hasMoreBranches = $false
             } else {
                 throw
@@ -205,58 +208,74 @@ $indexedProjects | ForEach-Object -Parallel {
         }
     }
 
-    $pluralbranch = if ($allBranches.Length -ge 2) { "branches" } else { "branch" }
-    Write-Host "Project ${projectIndex}/${totalProjects}: $($projectName) (ID: $projectId) $($allBranches.Length) $pluralbranch"
+    if (-not $isAccessible) {
+        return @{ name = $projectName; id = $projectId; accessible = $false }
+    } else {
+        $pluralbranch = if ($allBranches.Length -ge 2) { "branches" } else { "branch" }
+        $output = @()
+        $output += "Project ${projectIndex}/${totalProjects}: $($projectName) (ID: $projectId) $($allBranches.Length) $pluralbranch"
 
-    # Parallelize branches (inner loop)
-    $allBranches | ForEach-Object -Parallel {
-        $branchName = $_.name
-        $projectId = $using:projectId
-        $sinceDate = $using:sinceDate
-        $untilDate = $using:untilDate
-        $personalAccessToken = $using:personalAccessToken
-        $commitsPerPage = 100
-        # Pagination for commits
-        $allCommits = @()
-        $commitPage = 1
-        $hasMoreCommits = $true
-        while ($hasMoreCommits) {
-            $commitsUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/commits?ref_name=$branchName&since=$sinceDate&until=$untilDate&per_page=$commitsPerPage&page=$commitPage&private_token=$personalAccessToken"
-            $commitsPage = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
-            if ($commitsPage -is [array]) {
-                if ($commitsPage.Length -gt 0) {
+        foreach ($branch in $allBranches) {
+            $branchName = $branch.name
+            $commitsPerPage = 100
+            $allCommits = @()
+            $commitPage = 1
+            $hasMoreCommits = $true
+            while ($hasMoreCommits) {
+                $commitsUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/commits?ref_name=$branchName&since=$sinceDate&until=$untilDate&per_page=$commitsPerPage&page=$commitPage&private_token=$personalAccessToken"
+                $commitsPage = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+                if ($commitsPage -is [array]) {
+                    if ($commitsPage.Length -gt 0) {
+                        $allCommits += $commitsPage
+                        $commitPage++
+                    } else {
+                        $hasMoreCommits = $false
+                    }
+                } elseif ($commitsPage) {
                     $allCommits += $commitsPage
-                    $commitPage++
+                    $hasMoreCommits = $false
                 } else {
                     $hasMoreCommits = $false
                 }
-            } elseif ($commitsPage) {
-                $allCommits += $commitsPage
-                $hasMoreCommits = $false
-            } else {
-                $hasMoreCommits = $false
+            }
+            $commitCount = $allCommits.Length
+            if ($commitCount -ne 0) {
+                $output += "`e[93m   From branch: $branchName`e[0m"
+                foreach ($commit in $allCommits) {
+                    $short_id = $commit.short_id
+                    $author = $commit.author_name
+                    $created_at = $commit.created_at
+                    $comment = $commit.message -replace "`n", ""
+                    $output += "`e[36m`tCommit ID:  $short_id`e[0m"
+                    $output += "`e[36m`tAuthor:`e[0m     `e[94m$author`e[0m"
+                    $output += "`e[36m`tDate:       $created_at`e[0m"
+                    $output += "`e[36m`tComment:    $comment`e[0m"
+                    $output += "`t-----"
+                    $output += ""
+                }
             }
         }
-        $commitCount = $allCommits.Length
-        if ($commitCount -ne 0) {
-            Write-Host "`e[93m   From branch: $branchName`e[0m"
-            $allCommits | ForEach-Object {
-                $short_id = $_.short_id
-                $author = $_.author_name
-                $created_at = $_.created_at
-                $comment = $_.message -replace "`n", ""
-                Write-Host "`e[36m`tCommit ID:  $short_id`e[0m"
-                Write-Host "`e[36m`tAuthor:`e[0m     `e[94m$author`e[0m"
-                Write-Host "`e[36m`tDate:       $created_at`e[0m"
-                Write-Host "`e[36m`tComment:    $comment`e[0m"
-                Write-Host "`t-----"
-                Write-Host ""
-            }
-        }
-    } -ThrottleLimit 5
-} -ThrottleLimit 5
+        foreach ($line in $output) { Write-Host $line }
+        return @{ name = $projectName; id = $projectId; accessible = $true }
+    }
+} -ThrottleLimit 5 | ForEach-Object {
+    if ($_.accessible) {
+        $localAccessible += $_
+    } else {
+        $localInaccessible += $_
+    }
+}
 
-
+# Output summary of accessible/inaccessible projects
+$accessibleCount = $localAccessible.Count
+$inaccessibleCount = $localInaccessible.Count
+Write-Host ""
+Write-Host "Accessible projects: $accessibleCount"
+Write-Host "Inaccessible projects (403): $inaccessibleCount"
+if ($inaccessibleCount -gt 0) {
+    Write-Host "List of inaccessible projects:"
+    $localInaccessible | ForEach-Object { Write-Host " - $($_.name) (ID: $($_.id))" -ForegroundColor Red }
+}
 Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
 Write-Host ""
