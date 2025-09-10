@@ -104,13 +104,15 @@ $repoCountFilePath = "$env:USERPROFILE\repoCountGitLab.txt"
 $previousRepoCount = Get-PreviousRepoCount
 
 
+## Pagination for projects
+$allProjects = @()
+$page = 1
+$perPage = 100
+$hasMoreProjects = $true
 
-
-# Set the GitLab API URL for projects
-$uriProjects = "https://gitlab.com/api/v4/projects?membership=true&private_token=$personalAccessToken"
-
+# The date range for the query starting with today.
 $untilDate = (Get-Date).ToString("yyyy-MM-ddTHH:mm:ssZ")
-# Calculate the date for how far to look back for changes
+# Calculate the date for how far to look back for changes.
 $sinceDate = (Get-Date).AddDays($days * -1).ToString("yyyy-MM-ddTHH:mm:ssZ")
 
 if ($showall) {
@@ -125,13 +127,27 @@ if ($showall) {
 }
 
 try {
-    # Fetch all projects
-    $projects = Invoke-RestMethod -Uri $uriProjects -Method Get -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
-    $currentRepoCount = $projects.count
-    # Save the current repo count to the file
+    while ($hasMoreProjects) {
+        $uriProjects = "https://gitlab.com/api/v4/projects?membership=true&per_page=$perPage&page=$page&private_token=$personalAccessToken"
+        $projectsPage = Invoke-RestMethod -Uri $uriProjects -Method Get -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+        if ($projectsPage -is [array]) {
+            if ($projectsPage.Length -gt 0) {
+                $allProjects += $projectsPage
+                $page++
+            } else {
+                $hasMoreProjects = $false
+            }
+        } elseif ($projectsPage) {
+            $allProjects += $projectsPage
+            $hasMoreProjects = $false
+        } else {
+            $hasMoreProjects = $false
+        }
+    }
+    $currentRepoCount = $allProjects.Length
     Save-RepoCount -count $currentRepoCount
-     Write-Host "GitLab REPOSITORY Count: $currentRepoCount"
- }
+    Write-Host "GitLab REPOSITORY Count: $currentRepoCount"
+}
 catch {
     Write-Host "`e[31mError fetching projects: $_`e[0m"
     throw
@@ -139,60 +155,107 @@ catch {
 
 $projectNum = 0
 
-foreach ($project in $projects) {
-    $projectName = $project.name
-    $projectId = $project.id
-    $projectNum++
 
-    # Set the GitLab API URL for branches
-    $uriBranches = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?private_token=$personalAccessToken"
 
-    try {
-        # Get all branches
-        $branches = Invoke-RestMethod -Uri $uriBranches -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+# Add index to each project before parallelization using PSCustomObject
+$indexedProjects = @()
+for ($i = 0; $i -lt $allProjects.Length; $i++) {
+    $proj = $allProjects[$i]
+    $indexedProjects += [PSCustomObject]@{
+        name = $proj.name
+        id = $proj.id
+        ProjectIndex = $i + 1
+        TotalProjects = $allProjects.Length
     }
-    catch {
-        # Write-Host "`e[37mError fetching branches: $_`e[0m"
-        if ($_.Exception.Response.StatusCode -eq 403) {
-                Write-Host "Project $($projectNum): 403 Forbidden Access: $($projectName) (ID: $projectId) $($branches.count) $pluralbranch" -ForegroundColor Red
-            # Write-Host "Continuing..."
-            continue  # Skips to next repo in the loop
-        } else {
-            throw  # Rethrow other errors
+}
+
+# Parallelize projects (outer loop) with index
+$indexedProjects | ForEach-Object -Parallel {
+    $projectName = $_.name
+    $projectId = $_.id
+    $perPage = 100
+    $sinceDate = $using:sinceDate
+    $untilDate = $using:untilDate
+    $personalAccessToken = $using:personalAccessToken
+    $projectIndex = $_.ProjectIndex
+    $totalProjects = $_.TotalProjects
+
+    # Pagination for branches
+    $allBranches = @()
+    $branchPage = 1
+    $hasMoreBranches = $true
+    while ($hasMoreBranches) {
+        $uriBranches = "https://gitlab.com/api/v4/projects/$projectId/repository/branches?per_page=$perPage&page=$branchPage&private_token=$personalAccessToken"
+        try {
+            $branchesPage = Invoke-RestMethod -Uri $uriBranches -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+            if ($branchesPage -is [array] -and $branchesPage.Length -gt 0) {
+                $allBranches += $branchesPage
+                $branchPage++
+            } else {
+                $hasMoreBranches = $false
+            }
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -eq 403) {
+                Write-Host "Project ${projectIndex}/${totalProjects}: 403 Forbidden Access: $($projectName) (ID: $projectId)" -ForegroundColor Red
+                $hasMoreBranches = $false
+            } else {
+                throw
+            }
         }
     }
 
-    $pluralbranch = if ($branches.count -ge 2) { "branches" } else { "branch" }
-    Write-Host "Project $($projectNum): $($projectName) (ID: $projectId) $($branches.count) $pluralbranch"
+    $pluralbranch = if ($allBranches.Length -ge 2) { "branches" } else { "branch" }
+    Write-Host "Project ${projectIndex}/${totalProjects}: $($projectName) (ID: $projectId) $($allBranches.Length) $pluralbranch"
 
-    foreach ($branch in $branches) {
-        $branchName = $branch.name
-        $commitsUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/commits?ref_name=$branchName&since=$sinceDate&until=$untilDate&private_token=$personalAccessToken"
-        # Make the API request to get the commits
-        $commits = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
-        $commitCount = $commits.count
-  
+    # Parallelize branches (inner loop)
+    $allBranches | ForEach-Object -Parallel {
+        $branchName = $_.name
+        $projectId = $using:projectId
+        $sinceDate = $using:sinceDate
+        $untilDate = $using:untilDate
+        $personalAccessToken = $using:personalAccessToken
+        $commitsPerPage = 100
+        # Pagination for commits
+        $allCommits = @()
+        $commitPage = 1
+        $hasMoreCommits = $true
+        while ($hasMoreCommits) {
+            $commitsUrl = "https://gitlab.com/api/v4/projects/$projectId/repository/commits?ref_name=$branchName&since=$sinceDate&until=$untilDate&per_page=$commitsPerPage&page=$commitPage&private_token=$personalAccessToken"
+            $commitsPage = Invoke-RestMethod -Uri $commitsUrl -Headers @{ "PRIVATE-TOKEN" = $personalAccessToken }
+            if ($commitsPage -is [array]) {
+                if ($commitsPage.Length -gt 0) {
+                    $allCommits += $commitsPage
+                    $commitPage++
+                } else {
+                    $hasMoreCommits = $false
+                }
+            } elseif ($commitsPage) {
+                $allCommits += $commitsPage
+                $hasMoreCommits = $false
+            } else {
+                $hasMoreCommits = $false
+            }
+        }
+        $commitCount = $allCommits.Length
         if ($commitCount -ne 0) {
             Write-Host "`e[93m   From branch: $branchName`e[0m"
-                
-            # Display the commits
-            $commits | ForEach-Object {  
+            $allCommits | ForEach-Object {
                 $short_id = $_.short_id
                 $author = $_.author_name
                 $created_at = $_.created_at
                 $comment = $_.message -replace "`n", ""
-
                 Write-Host "`e[36m`tCommit ID:  $short_id`e[0m"
                 Write-Host "`e[36m`tAuthor:`e[0m     `e[94m$author`e[0m"
                 Write-Host "`e[36m`tDate:       $created_at`e[0m"
                 Write-Host "`e[36m`tComment:    $comment`e[0m"
-                
                 Write-Host "`t-----"
                 Write-Host ""
             }
         }
-    }
-}
+    } -ThrottleLimit 5
+} -ThrottleLimit 5
+
 
 Write-Host ""
 & $env:USERPROFILE\Documents\PowerShell\Get-RepoCount.ps1 -RepoCount $currentRepoCount -PrevCount $previousRepoCount
